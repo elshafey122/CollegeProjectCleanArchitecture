@@ -107,6 +107,9 @@ namespace SchoolProject.Service.Implemintations
             return _studentrepository.GetTableNoTracking().Include(e => e.Departement).AsQueryable();
         }
 
-
+        public Task<bool> IsDepartementIdExist(int id)
+        {
+            return _studentrepository.GetTableNoTracking().AnyAsync(x => x.DID == id);
+        }
     }
 }

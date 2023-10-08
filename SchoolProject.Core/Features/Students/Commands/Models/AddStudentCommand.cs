@@ -9,6 +9,6 @@ namespace SchoolProject.Core.Features.Students.Commands.Models
         public string? StuNameen { get; set; }
         public string? Address { get; set; }
         public string? Phone { get; set; }
-        public int? DepartementId { get; set; }
+        public int DepartementId { get; set; }
     }
 }

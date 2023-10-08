@@ -13,7 +13,7 @@ namespace SchoolProject.Service.Abstractions
         public Task<string> DeleteStudent(Student student);
         public IQueryable<Student> GetStudentspaginationQuerable();
         public IQueryable<Student> GetStudentListByDepartementId(int id);
-
+        public Task<bool> IsDepartementIdExist(int id);
         public IQueryable<Student> FilterStudentPaginationQuerable(StudentOrderingEnum orderingnum, string search);
     }
 }
