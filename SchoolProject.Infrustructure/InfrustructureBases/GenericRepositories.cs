@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using SchoolProject.Infrustructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SchoolProject.Infrustructure.InfrustructureBases
 {
-    public class GenericRepositories<T> : IGenericRepositories<T> where T:class
+    public class GenericRepositories<T> : IGenericRepositories<T> where T : class
     {
         private readonly ApplicationDbContext _context;
         public GenericRepositories(ApplicationDbContext context)
@@ -48,7 +43,7 @@ namespace SchoolProject.Infrustructure.InfrustructureBases
 
         public virtual async Task DeleteRangeAsync(ICollection<T> entities)
         {
-            foreach(var entity in entities)
+            foreach (var entity in entities)
             {
                 _context.Entry(entity).State = EntityState.Deleted;
             }

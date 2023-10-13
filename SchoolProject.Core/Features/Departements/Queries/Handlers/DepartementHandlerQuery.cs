@@ -13,7 +13,8 @@ using System.Linq.Expressions;
 
 namespace SchoolProject.Core.Features.Departements.Queries.Handlers
 {
-    public class DepartementHandlerQuery : ResponseHandler, IRequestHandler<GetDepardementByIdQuery, Response<DepartementByIdResponse>>
+    public class DepartementHandlerQuery : ResponseHandler, IRequestHandler<GetDepardementByIdQuery, Response<DepartementByIdResponse>>,
+                                                            IRequestHandler<GetDepartementListQuery, Response<PaginatedResult<DepartementListResponse>>>
     {
         private readonly IDeparetementService _departementservice;
         private readonly IStudentService _studentservice;
@@ -42,6 +43,14 @@ namespace SchoolProject.Core.Features.Departements.Queries.Handlers
             var paginatedlist = await studentslist.Select(expression).ToPaginateListAsync(request.PageNumber, request.PageSize);
             departementmapper.StudentsList = paginatedlist;
             return Success(departementmapper);
+        }
+
+        public async Task<Response<PaginatedResult<DepartementListResponse>>> Handle(GetDepartementListQuery request, CancellationToken cancellationToken)
+        {
+            var response = _departementservice.GetDepartementList();
+            Expression<Func<Departement, DepartementListResponse>> expression = e => new DepartementListResponse { Id = e.DID, DepartementName = e.Localize(e.DNameAr, e.DNameEn), InstructorManager = e.Instructor.Localize(e.Instructor.NameAr, e.Instructor.NameEn) };
+            var paginatedlist = await response.Select(expression).ToPaginateListAsync(request.PageNumber, request.PageSize);
+            return Success(paginatedlist);
         }
     }
 }

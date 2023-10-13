@@ -39,7 +39,6 @@ namespace SchoolProject.Core.Features.Students.Commands.Validations
                 .NotNull().WithMessage($"Phone: {_stringLocalizer[SharedResourcesKeys.Empty]}")
                 .MaximumLength(11).WithMessage("length no more than 11");
 
-
             RuleFor(x => x.DepartementId)
                .NotEmpty().WithMessage("Department ID is required.")
                .MustAsync(async (key, CancellationToken) => await _studentservice.IsDepartementIdExist(key))

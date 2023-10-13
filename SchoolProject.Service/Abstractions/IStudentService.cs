@@ -15,5 +15,6 @@ namespace SchoolProject.Service.Abstractions
         public IQueryable<Student> GetStudentListByDepartementId(int id);
         public Task<bool> IsDepartementIdExist(int id);
         public IQueryable<Student> FilterStudentPaginationQuerable(StudentOrderingEnum orderingnum, string search);
+
     }
 }

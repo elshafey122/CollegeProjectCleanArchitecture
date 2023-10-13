@@ -12,6 +12,11 @@ namespace SchoolProject.Infrustructure.Configurations
                                              .WithOne(x => x.Instructor)
                                              .HasForeignKey<Departement>(x => x.InsManager)
                                              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(x => x.supervisor)
+                                             .WithMany(x => x.Instructors)
+                                             .HasForeignKey(x => x.SupervisorId)
+                                             .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

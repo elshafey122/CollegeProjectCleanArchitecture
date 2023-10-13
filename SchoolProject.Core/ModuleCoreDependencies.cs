@@ -7,7 +7,10 @@ namespace SchoolProject.Core
     {
         public static IServiceCollection AddCoreDependencies(this IServiceCollection services)
         {
+            // configuration for mediator
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            // configuration for automapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // adding validation 

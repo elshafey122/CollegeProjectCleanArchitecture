@@ -11,7 +11,7 @@ namespace SchoolProject.Infrustructure.Configurations
             builder.HasOne(x => x.Departement)
                                           .WithMany(x => x.Students)
                                           .HasForeignKey(x => x.DID)
-                                          .OnDelete(DeleteBehavior.Restrict);
+                                          .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

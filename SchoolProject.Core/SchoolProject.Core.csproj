@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mapping\Departements\CommonMapping\**" />
+    <EmbeddedResource Remove="Mapping\Departements\CommonMapping\**" />
+    <None Remove="Mapping\Departements\CommonMapping\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SchoolProject.Data\SchoolProject.Data.csproj" />
     <ProjectReference Include="..\SchoolProject.Infrustructure\SchoolProject.Infrustructure.csproj" />
     <ProjectReference Include="..\SchoolProject.Service\SchoolProject.Service.csproj" />
@@ -26,11 +32,6 @@
     <EmbeddedResource Update="Localization\SharedResources.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Departements\Commands\" />
-    <Folder Include="Mapping\Departements\CommonMapping\" />
   </ItemGroup>
 
 </Project>

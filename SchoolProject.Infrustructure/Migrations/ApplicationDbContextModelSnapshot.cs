@@ -44,8 +44,7 @@ namespace SchoolProject.Infrustructure.Migrations
 
                     b.HasKey("DID");
 
-                    b.HasIndex("InsManager")
-                        .IsUnique();
+                    b.HasIndex("InsManager");
 
                     b.ToTable("departements");
                 });
@@ -264,7 +263,7 @@ namespace SchoolProject.Infrustructure.Migrations
                     b.HasOne("SchoolProject.Data.Entities.Departement", "Departement")
                         .WithMany("Students")
                         .HasForeignKey("DID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Departement");
                 });

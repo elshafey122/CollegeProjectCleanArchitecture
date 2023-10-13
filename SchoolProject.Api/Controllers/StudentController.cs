@@ -18,7 +18,6 @@ namespace SchoolProject.Api.Controllers
             _addvalidator = Addvalidator;
             _editvalidator = Editvalidator;
         }
-
         [HttpGet(Routes.StudentRouting.List)]
         public async Task<IActionResult> GetStudentsList()
         {
@@ -82,5 +81,6 @@ namespace SchoolProject.Api.Controllers
             var response = await _mediator.Send(new DeleteStudentCommand(id));
             return NewResult(response);
         }
+
     }
 }
