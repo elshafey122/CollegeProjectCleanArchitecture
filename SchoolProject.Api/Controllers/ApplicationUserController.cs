@@ -28,6 +28,7 @@ namespace SchoolProject.Api.Controllers
                 {
                     StatusCode = HttpStatusCode.BadRequest,
                     ErrorMessages = errorMessages,
+                    Success = false,
                 };
                 return BadRequest(errorresponse);
             }
