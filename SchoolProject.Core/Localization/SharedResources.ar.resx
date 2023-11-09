@@ -162,4 +162,7 @@
   <data name="Updated" xml:space="preserve">
     <value>تم التعديل بنجاح</value>
   </data>
+  <data name="UpdateFailed" xml:space="preserve">
+    <value>حدث خطا اثناء تحديث البيانات</value>
+  </data>
 </root>
