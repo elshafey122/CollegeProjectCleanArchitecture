@@ -28,12 +28,13 @@ namespace SchoolProject.Api.Controllers
                 {
                     StatusCode = HttpStatusCode.BadRequest,
                     ErrorMessages = errorMessages,
-                    Success = false,
                 };
                 return BadRequest(errorresponse);
             }
             var response = await _mediator.Send(command);
             return NewResult(response);
+
+
         }
     }
 }
