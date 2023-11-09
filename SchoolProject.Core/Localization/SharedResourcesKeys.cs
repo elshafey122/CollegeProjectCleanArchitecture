@@ -14,6 +14,11 @@
         public const string Unprocessable = "Unprocessable";
         public const string Empty = "Empty";
         public const string Success = "Success";
+        public const string NotConfirmPassword = "NotConfirmPassword";
+        public const string EmailIsExist = "EmailIsExist";
+        public const string NameIsExist = "NameIsExist";
+        public const string FailToAddUser = "FailToAddUser";
+
 
     }
 }

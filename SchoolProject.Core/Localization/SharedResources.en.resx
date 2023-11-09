@@ -126,14 +126,26 @@
   <data name="Deleted" xml:space="preserve">
     <value>deleted successfully</value>
   </data>
+  <data name="EmailIsExist" xml:space="preserve">
+    <value>Email is already exists</value>
+  </data>
   <data name="Empty" xml:space="preserve">
     <value>this must not be empty</value>
+  </data>
+  <data name="FailToAddUser" xml:space="preserve">
+    <value>failed to add user</value>
   </data>
   <data name="IsExist" xml:space="preserve">
     <value>is already exists</value>
   </data>
   <data name="MaxLength100" xml:space="preserve">
     <value>the max length is 100</value>
+  </data>
+  <data name="NameIsExist" xml:space="preserve">
+    <value>Name is already exists</value>
+  </data>
+  <data name="NotConfirmPassword" xml:space="preserve">
+    <value>password and confirmpassword not match</value>
   </data>
   <data name="NotFound" xml:space="preserve">
     <value>object not found</value>
