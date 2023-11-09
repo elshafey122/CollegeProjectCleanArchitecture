@@ -126,14 +126,26 @@
   <data name="Deleted" xml:space="preserve">
     <value>تم الحذف بنجاح</value>
   </data>
+  <data name="EmailIsExist" xml:space="preserve">
+    <value>الايميل موجود بالفعل</value>
+  </data>
   <data name="Empty" xml:space="preserve">
     <value>هذا الحقل لا يجب ان يكون فارغ</value>
+  </data>
+  <data name="FailToAddUser" xml:space="preserve">
+    <value>فشل فى اضافة المستخدم</value>
   </data>
   <data name="IsExist" xml:space="preserve">
     <value> موجود بالفعل</value>
   </data>
   <data name="MaxLength100" xml:space="preserve">
     <value>اكبر قيمة لة 100</value>
+  </data>
+  <data name="NameIsExist" xml:space="preserve">
+    <value>اسم المستخدم موجود بالفعل</value>
+  </data>
+  <data name="NotConfirmPassword" xml:space="preserve">
+    <value>تاكيد الباسورد والباسورد لا يتفقان</value>
   </data>
   <data name="NotFound" xml:space="preserve">
     <value>العنصر غير متوفر</value>

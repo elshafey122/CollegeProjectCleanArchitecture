@@ -20,6 +20,7 @@
         public static class DepartementRouting
         {
             public const string Prefix = Rule + "Departement";
+
             public const string List = Prefix + "/PaginatedList";
             public const string GetById = Prefix + "/Paginatedid";
             public const string Create = Prefix + "/Create";
@@ -29,11 +30,22 @@
         public static class InstructorRouting
         {
             public const string Prefix = Rule + "Instructor";
+
             public const string List = Prefix + "/PaginatedList";
             public const string GetById = Prefix + "/{id}";
             public const string Edit = Prefix + "/Edit";
             public const string Create = Prefix + "/Create";
             public const string Delete = Prefix + "/Delete/{id}";
         }
+
+        public static class ApplicationUserRouting
+        {
+            public const string Prefix = Rule + "User";
+
+            public const string Create = Prefix + "/Create";
+        }
+
+
+
     }
 }
