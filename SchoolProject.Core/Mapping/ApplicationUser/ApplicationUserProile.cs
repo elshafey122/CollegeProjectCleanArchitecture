@@ -7,6 +7,8 @@ namespace SchoolProject.Core.Mapping.ApplicationUser
         public ApplicationUserProile()
         {
             AddUserMapper();
+            GetUserByIdMapper();
+            EditUserMapper();
         }
     }
 }

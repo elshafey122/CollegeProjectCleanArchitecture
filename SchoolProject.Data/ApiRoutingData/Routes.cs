@@ -42,10 +42,11 @@
         {
             public const string Prefix = Rule + "User";
 
-            public const string Create = Prefix + "/Create";
+            public const string Register = Prefix + "/Register";
+            public const string GetUsers = Prefix + "/GetUsers";
+            public const string GetbyId = Prefix + "/GetbyId/{id}";
+            public const string Edit = Prefix + "/Edit";
+
         }
-
-
-
     }
 }

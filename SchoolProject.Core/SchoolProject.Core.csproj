@@ -34,9 +34,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\ApplicationUser\Queires\" />
-    <Folder Include="Mapping\ApplicationUser\QueryMapping\" />
-  </ItemGroup>
-
 </Project>
