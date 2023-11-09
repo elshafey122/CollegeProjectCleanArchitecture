@@ -17,7 +17,6 @@ namespace SchoolProject.Api.Controllers
             _adduservalidator = adduservalidator;
         }
 
-
         [HttpPost(Routes.ApplicationUserRouting.Create)]
         public async Task<IActionResult> CreateUser([FromBody] AddUserCommand command)
         {
