@@ -35,6 +35,7 @@ namespace SchoolProject.Api.Controllers
             var response = await _mediator.Send(command);
             return NewResult(response);
 
+
         }
     }
 }
