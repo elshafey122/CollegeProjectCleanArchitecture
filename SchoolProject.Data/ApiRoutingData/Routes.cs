@@ -46,7 +46,8 @@
             public const string GetUsers = Prefix + "/GetUsers";
             public const string GetbyId = Prefix + "/GetbyId/{id}";
             public const string Edit = Prefix + "/Edit";
-
+            public const string Delete = Prefix + "/Delete/{id}";
+            public const string ChangeUserPassword = Prefix + "/ChangeUserPassword";
         }
     }
 }
