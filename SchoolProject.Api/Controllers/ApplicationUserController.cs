@@ -15,11 +15,14 @@ namespace SchoolProject.Api.Controllers
     {
         private readonly IValidator<AddUserCommand> _adduservalidator;
         private readonly IValidator<EditUserCommand> _edituservalidator;
+        private readonly IValidator<ChangeUserPasswordCommand> _changeuserpasswordvalidator;
 
-        public ApplicationUserController(IValidator<AddUserCommand> adduservalidator, IValidator<EditUserCommand> edituservalidator)
+        public ApplicationUserController(IValidator<AddUserCommand> adduservalidator, IValidator<EditUserCommand> edituservalidator,
+             IValidator<ChangeUserPasswordCommand> changeuserpasswordvalidator)
         {
             _adduservalidator = adduservalidator;
             _edituservalidator = edituservalidator;
+            _changeuserpasswordvalidator = changeuserpasswordvalidator;
         }
 
         [HttpPost(Routes.ApplicationUserRouting.Register)]
@@ -60,6 +63,31 @@ namespace SchoolProject.Api.Controllers
         public async Task<IActionResult> UpdateUser([FromBody] EditUserCommand command)
         {
             var validation = await _edituservalidator.ValidateAsync(command);
+            if (!validation.IsValid)
+            {
+                var errorMessages = validation.Errors.Select(error => error.ErrorMessage);
+                var errorresponse = new ErrorValidationResponse
+                {
+                    StatusCode = HttpStatusCode.BadRequest,
+                    ErrorMessages = errorMessages,
+                };
+                return BadRequest(errorresponse);
+            }
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+        [HttpDelete(Routes.ApplicationUserRouting.Delete)]
+        public async Task<IActionResult> DeleteUser([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new DeleteUserCommand { Id = id });
+            return Ok(response);
+        }
+
+        [HttpPut(Routes.ApplicationUserRouting.ChangeUserPassword)]
+        public async Task<IActionResult> ChangeUserPassword([FromBody] ChangeUserPasswordCommand command)
+        {
+            var validation = await _changeuserpasswordvalidator.ValidateAsync(command);
             if (!validation.IsValid)
             {
                 var errorMessages = validation.Errors.Select(error => error.ErrorMessage);

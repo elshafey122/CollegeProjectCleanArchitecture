@@ -19,5 +19,7 @@
         public const string NameIsExist = "NameIsExist";
         public const string FailToAddUser = "FailToAddUser";
         public const string UpdateFailed = "UpdateFailed";
+        public const string DeletedFailed = "DeletedFailed";
+
     }
 }

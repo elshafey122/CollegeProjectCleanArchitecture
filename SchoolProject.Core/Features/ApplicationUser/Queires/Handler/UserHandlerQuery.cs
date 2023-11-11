@@ -31,7 +31,7 @@ namespace SchoolProject.Core.Features.ApplicationUser.Queires.Handler
 
         public Task<PaginatedResult<GetUserPaginatedResponse>> Handle(GetUsersPaginatedQuery request, CancellationToken cancellationToken)
         {
-            var users = _userManager.Users.AsQueryable();
+            var users = _userManager.Users.AsQueryable();//
             //sol
             //var PaginatedUsers = users.Select(x => new GetUserPaginatedResponse(x.FullName, x.Email, x.Country, x.Address))
             //.ToPaginateListAsync(request.PageSize, request.PageNumber);
@@ -44,7 +44,7 @@ namespace SchoolProject.Core.Features.ApplicationUser.Queires.Handler
 
         public async Task<Response<GetUserByIdResponse>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id);//
             if (user == null)
             {
                 return NotFound<GetUserByIdResponse>(_stringLocalizer[SharedResourcesKeys.NotFound]);
