@@ -150,6 +150,9 @@
   <data name="NotConfirmPassword" xml:space="preserve">
     <value>password and confirmpassword not match</value>
   </data>
+  <data name="NotCorrectPassword" xml:space="preserve">
+    <value>password is not correct</value>
+  </data>
   <data name="NotFound" xml:space="preserve">
     <value>object not found</value>
   </data>
@@ -167,5 +170,8 @@
   </data>
   <data name="Updated" xml:space="preserve">
     <value>updated successfully</value>
+  </data>
+  <data name="UserNameIsExist" xml:space="preserve">
+    <value>username is already exists</value>
   </data>
 </root>
