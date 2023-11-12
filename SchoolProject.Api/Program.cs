@@ -1,33 +1,41 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SchoolProject.Core;
 using SchoolProject.Data.Entities.Identity;
+using SchoolProject.Data.Helpers;
 using SchoolProject.Infrustructure;
 using SchoolProject.Infrustructure.Data;
 using SchoolProject.Service;
 using System.Globalization;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllersWithViews();
 
-// connect to database
+#region connect to database
 var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ConnectionString));
+#endregion
 
 #region depency injection
-
 builder.Services.AddInfrustructureDependencies()
     .AddServiceDependencies()
     .AddCoreDependencies();
 
+#region registerservice
+
+#region identityservices
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 {
     // Password settings.
@@ -49,11 +57,73 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 
 }).AddEntityFrameworkStores<ApplicationDbContext>()
   .AddDefaultTokenProviders();
+#endregion
 
-#endregion depency injection
+#region jwt authentication setting to apply authenticaation on project
+var JwtSetting = new JwtSetting();
+builder.Configuration.GetSection("jwtSettings").Bind(JwtSetting); // making bind to transfer data from jwtsetting in appsetting.json into class jwtsetting
+builder.Services.AddSingleton(JwtSetting);
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = JwtSetting.ValidateIssuer,
+        ValidIssuers = new[] { JwtSetting.Issuer },
+        ValidateIssuerSigningKey = JwtSetting.ValidateIssuerSigningKey,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtSetting.Secret)),
+        ValidAudience = JwtSetting.Audience,
+        ValidateAudience = JwtSetting.ValidateAudience,
+        ValidateLifetime = JwtSetting.ValidateLifeTime,
+    };
+});
+#endregion
+
+#region Swagger generator auth
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "School Project", Version = "v1" });
+
+    c.EnableAnnotations();
+
+    c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = JwtBearerDefaults.AuthenticationScheme
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+            {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = JwtBearerDefaults.AuthenticationScheme
+                }
+            },
+            Array.Empty<string>()
+            }
+           });
+});
+#endregion
+
+#endregion
+
+#endregion
 
 #region Addlocalization
-builder.Services.AddControllersWithViews();
 builder.Services.AddLocalization(opt =>
 {
     opt.ResourcesPath = "";
@@ -88,6 +158,9 @@ builder.Services.AddCors(options =>
 });
 #endregion
 
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -102,13 +175,14 @@ app.UseHttpsRedirection();
 // for handle error
 //app.UseMiddleware<ErrorHandlerMiddleware>();
 
-
 #region middleware localization
 var options = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(options.Value);
 #endregion
 
 app.UseCors(Cors);
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

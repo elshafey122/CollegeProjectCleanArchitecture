@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Features.Departements.Commands.Models;
 using SchoolProject.Core.Features.Departements.Queries.Models;
@@ -8,6 +9,8 @@ using System.Net;
 namespace SchoolProject.Api.Controllers
 {
     [ApiController]
+
+    [Authorize]
     public class DepartementController : AppControllerBase
     {
         private readonly IValidator<AddDepartementCommand> _adddepvalidator;
@@ -31,7 +34,7 @@ namespace SchoolProject.Api.Controllers
             var response = await _mediator.Send(query);
             return NewResult(response);
         }
-
+        [AllowAnonymous]
         [HttpPost(Routes.DepartementRouting.Create)]
         public async Task<IActionResult> AddDepartement([FromBody] AddDepartementCommand query)
         {

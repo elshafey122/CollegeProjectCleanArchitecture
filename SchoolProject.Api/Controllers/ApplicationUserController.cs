@@ -56,7 +56,7 @@ namespace SchoolProject.Api.Controllers
         public async Task<IActionResult> GetuserById([FromRoute] int id)
         {
             var response = await _mediator.Send(new GetUserByIdQuery(id));
-            return Ok(response);
+            return NewResult(response);
         }
 
         [HttpPut(Routes.ApplicationUserRouting.Edit)]
@@ -74,14 +74,14 @@ namespace SchoolProject.Api.Controllers
                 return BadRequest(errorresponse);
             }
             var response = await _mediator.Send(command);
-            return Ok(response);
+            return NewResult(response);
         }
 
         [HttpDelete(Routes.ApplicationUserRouting.Delete)]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {
             var response = await _mediator.Send(new DeleteUserCommand { Id = id });
-            return Ok(response);
+            return NewResult(response);
         }
 
         [HttpPut(Routes.ApplicationUserRouting.ChangeUserPassword)]
@@ -99,7 +99,7 @@ namespace SchoolProject.Api.Controllers
                 return BadRequest(errorresponse);
             }
             var response = await _mediator.Send(command);
-            return Ok(response);
+            return NewResult(response);
         }
     }
 }
