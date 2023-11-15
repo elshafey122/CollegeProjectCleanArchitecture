@@ -36,13 +36,13 @@ namespace SchoolProject.Core.BasicsStatus
                 },
             };
         }
-        public Response<T> Unauthorized<T>()
+        public Response<T> Unauthorized<T>(string message = null)
         {
             return new Response<T>()
             {
                 StatusCode = System.Net.HttpStatusCode.Unauthorized,
                 Succeeded = true,
-                Message = _stringLocalizer[SharedResourcesKeys.UnAuthorized],
+                Message = message == null ? _stringLocalizer[SharedResourcesKeys.UnAuthorized] : message,
             };
         }
         public Response<T> BadRequest<T>(string Message = null)

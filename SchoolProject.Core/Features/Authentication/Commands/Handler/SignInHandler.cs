@@ -6,11 +6,13 @@ using SchoolProject.Core.BasicsStatus;
 using SchoolProject.Core.Features.Authentication.Commands.Models;
 using SchoolProject.Core.Localization;
 using SchoolProject.Data.Entities.Identity;
+using SchoolProject.Data.Helpers;
 using SchoolProject.Service.Abstractions;
 
 namespace SchoolProject.Core.Features.Authentication.Commands.Handler
 {
-    public class SignInHandler : ResponseHandler, IRequestHandler<SignInCommand, Response<string>>
+    public class SignInHandler : ResponseHandler, IRequestHandler<SignInCommand, Response<JwtAuthResult>>
+                                                , IRequestHandler<RefreshTokenCommand, Response<JwtAuthResult>>
     {
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         private readonly UserManager<User> _userManager;
@@ -27,24 +29,52 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Handler
         }
 
         // generate token
-        public async Task<Response<string>> Handle(SignInCommand request, CancellationToken cancellationToken)
+        public async Task<Response<JwtAuthResult>> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
             // check first for username
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
             {
                 //return Unauthorized<string>();
-                return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.UserNameIsExist]);
+                return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.UserNameIsExist]);
             }
             // check for password of username
             var SignInManager = await _signinmanager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!SignInManager.Succeeded)
             {
                 //return Unauthorized<string>();
-                return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.NotCorrectPassword]);
+                return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.NotCorrectPassword]);
             }
             var token = await _authenticationService.GetjwtToken(user);
             return Success(token);
+        }
+
+        public async Task<Response<JwtAuthResult>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+        {
+            var jwtToken = _authenticationService.ReadJwtToken(request.AccessToken); // first we convirt stringtoken to jwtsecuritytoken
+            var UserIdAndExpireDate = await _authenticationService.ValidateTokenDetails(jwtToken, request.AccessToken, request.RefreshToken);  // second we validate token and refreshtoken to decide if i make refresh token or not
+
+            switch (UserIdAndExpireDate)
+            {
+                case ("AlgorithmIsWrong", null):
+                    return Unauthorized<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.AlgorithmIsWrong]);
+                case ("TokenIsNotExpired", null):
+                    return Unauthorized<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.TokenIsNotExpired]);
+                case ("RefreshTokenIsNotFound", null):
+                    return Unauthorized<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.RefreshTokenIsNotFound]);
+                case ("RefreshTokenIsExpired", null):
+                    return Unauthorized<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.RefreshTokenIsExpired]);
+            }
+
+            var (userId, expiryDate) = UserIdAndExpireDate;   // get user of token to reach to userRefreshToken
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return Unauthorized<JwtAuthResult>();
+            }
+
+            var result = await _authenticationService.GenerateRefreshToken(user, jwtToken, request.RefreshToken, expiryDate);  // finally i regenerate access token and refreshtoken is remain as it was
+            return Success(result);
         }
     }
 }
