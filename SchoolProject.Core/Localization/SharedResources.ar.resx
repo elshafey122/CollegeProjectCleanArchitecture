@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlgorithmIsWrong" xml:space="preserve">
+    <value>يوجد خطا فى الخوارزمية المستخدمة فى التنفيذ</value>
+  </data>
   <data name="BadRequest" xml:space="preserve">
     <value>طلب خاطئ</value>
   </data>
@@ -156,8 +159,20 @@
   <data name="NotFound" xml:space="preserve">
     <value>العنصر غير متوفر</value>
   </data>
+  <data name="RefreshTokenIsExpired" xml:space="preserve">
+    <value>رمز التنشيط الذى تستخدمة منتهى الصلاحية</value>
+  </data>
+  <data name="RefreshTokenIsNotFound" xml:space="preserve">
+    <value>رمز التنشيط الذى تستخدمة غير موجود</value>
+  </data>
   <data name="Required" xml:space="preserve">
     <value>هذا الحقل مطلوب</value>
+  </data>
+  <data name="TokenIsExpired" xml:space="preserve">
+    <value>رمز الوصول منتهى الصلاحية</value>
+  </data>
+  <data name="TokenIsNotExpired" xml:space="preserve">
+    <value>رمز الوصول الذى تستخدمة غير منتهى</value>
   </data>
   <data name="UnAuthorized" xml:space="preserve">
     <value>غير مسموح بالدخول لهذا المصدر</value>

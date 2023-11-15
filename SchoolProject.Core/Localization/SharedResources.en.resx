@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlgorithmIsWrong" xml:space="preserve">
+    <value>Algorithm Is Wrong</value>
+  </data>
   <data name="BadRequest" xml:space="preserve">
     <value>it is bad request</value>
   </data>
@@ -156,11 +159,23 @@
   <data name="NotFound" xml:space="preserve">
     <value>object not found</value>
   </data>
+  <data name="RefreshTokenIsExpired" xml:space="preserve">
+    <value>RefreshToken Is Expired</value>
+  </data>
+  <data name="RefreshTokenIsNotFound" xml:space="preserve">
+    <value>Refresh Token Is Not Found</value>
+  </data>
   <data name="Required" xml:space="preserve">
     <value>this field is required</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>done successfully</value>
+  </data>
+  <data name="TokenIsExpired" xml:space="preserve">
+    <value>Token Is Expired</value>
+  </data>
+  <data name="TokenIsNotExpired" xml:space="preserve">
+    <value>Token Is Not Expired</value>
   </data>
   <data name="UnAuthorized" xml:space="preserve">
     <value>you are not authorized to access this resource</value>
