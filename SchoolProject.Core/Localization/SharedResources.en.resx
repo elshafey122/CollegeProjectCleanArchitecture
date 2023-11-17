@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddFailed" xml:space="preserve">
+    <value>add failed</value>
+  </data>
   <data name="AlgorithmIsWrong" xml:space="preserve">
     <value>Algorithm Is Wrong</value>
   </data>
@@ -167,6 +170,12 @@
   </data>
   <data name="Required" xml:space="preserve">
     <value>this field is required</value>
+  </data>
+  <data name="RoleIsNotExist" xml:space="preserve">
+    <value>role is not exist</value>
+  </data>
+  <data name="RoleIsUsed" xml:space="preserve">
+    <value>role is used by users</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>done successfully</value>

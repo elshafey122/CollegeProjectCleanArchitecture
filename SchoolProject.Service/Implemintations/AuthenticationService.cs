@@ -31,7 +31,7 @@ namespace SchoolProject.Service.Implemintations
         // generate jwttoken expires after time and make refreshtoken to has the ability to regenrate anothertoken
         public async Task<JwtAuthResult> GetjwtToken(User user)
         {
-            var (JwtToken, AccessToken) = Generatetoken(user); //generate token
+            var (JwtToken, AccessToken) = await Generatetoken(user); //generate token
             var RefreshToken = GetRefreshToken(user.UserName);  // generate refreshtoken
 
             var userRefreshToken = new UserRefreshToken()
@@ -53,10 +53,10 @@ namespace SchoolProject.Service.Implemintations
             return response;
         }
 
-        private (JwtSecurityToken, string) Generatetoken(User user)
+        private async Task<(JwtSecurityToken, string)> Generatetoken(User user)
         {
-            var expires = "";
-            var claims = GenerateClaims(user);
+            var userRoles = await _usermanager.GetRolesAsync(user);
+            var claims = GenerateClaims(user, userRoles.ToList());
             var JwtToken = new JwtSecurityToken
             (
                 issuer: _jwtsettings.Issuer,
@@ -66,19 +66,25 @@ namespace SchoolProject.Service.Implemintations
                 signingCredentials: new SigningCredentials
                                     (new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtsettings.Secret)), SecurityAlgorithms.HmacSha256)
             );
-            Console.WriteLine(expires);
             var AccessToken = new JwtSecurityTokenHandler().WriteToken(JwtToken);  //make jwttoken a string
             return (JwtToken, AccessToken);
         }
-        private List<Claim> GenerateClaims(User user)
+        private List<Claim> GenerateClaims(User user, List<string> roles)
         {
             var claims = new List<Claim>()
             {
                 new Claim(nameof(UserClaimModel.UserId),user.Id.ToString()),
-                new Claim(nameof(UserClaimModel.UserName),user.UserName),
-                new Claim(nameof(UserClaimModel.Email),user.Email),
                 new Claim(nameof(UserClaimModel.phoneNumber),user.PhoneNumber),
+                new Claim(ClaimTypes.NameIdentifier,user.UserName),
+                new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.Email,user.Email),
+                //new Claim(nameof(UserClaimModel.UserName),user.UserName),
+                //new Claim(nameof(UserClaimModel.Email),user.Email),
             };
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
             return claims;
         }
 
@@ -153,7 +159,7 @@ namespace SchoolProject.Service.Implemintations
         // after we check for that token is expired but refreshtoken is  not we regenrate token and safe refreshtoken as it
         public async Task<JwtAuthResult> GenerateRefreshToken(User user, JwtSecurityToken jwtToken, string refreshToken, DateTime? expiryDate)
         {
-            var (JwtSecurityToken, AccessToken) = Generatetoken(user);  // normal generatetoken
+            var (JwtSecurityToken, AccessToken) = await Generatetoken(user);  // normal generatetoken
 
             var response = new JwtAuthResult();
             response.AccessToken = AccessToken;

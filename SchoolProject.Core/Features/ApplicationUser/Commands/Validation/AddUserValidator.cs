@@ -5,7 +5,7 @@ using SchoolProject.Core.Localization;
 
 namespace SchoolProject.Core.Features.ApplicationUser.Commands.Validation
 {
-    public class AddUserValidator : AbstractValidator<AddUserCommand>
+    public class AddUserValidator : AbstractValidator<RegisterUserCommand>
     {
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         public AddUserValidator(IStringLocalizer<SharedResources> stringLocalizer)

@@ -7,7 +7,7 @@ namespace SchoolProject.Core.Mapping.ApplicationUser
     {
         public void AddUserMapper()
         {
-            CreateMap<AddUserCommand, User>()
+            CreateMap<RegisterUserCommand, User>()
                .ForMember(des => des.PhoneNumber, opt => opt.MapFrom(src => src.Phone));
         }
     }

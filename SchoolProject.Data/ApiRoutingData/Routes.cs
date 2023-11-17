@@ -56,8 +56,17 @@
             public const string SignIn = Prefix + "/SignIn";
             public const string GenerateRefreshToken = Prefix + "/GenerateRefreshToken";
             public const string ValidateToken = Prefix + "/ValidateToken";
+        }
+        public static class Authorization
+        {
+            public const string Prefix = Rule + "Authorization";
 
+            public const string Create = Prefix + "Role/Create";
+            public const string Edit = Prefix + "Role/Edit";
+            public const string Delete = Prefix + "Role/Delete/{id}";
 
+            public const string List = Prefix + "Role/List";
+            public const string GetById = Prefix + "Role/GetById/{id}";
 
         }
     }

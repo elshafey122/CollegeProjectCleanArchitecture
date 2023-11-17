@@ -10,6 +10,7 @@ using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Helpers;
 using SchoolProject.Infrustructure;
 using SchoolProject.Infrustructure.Data;
+using SchoolProject.Infrustructure.Seeders;
 using SchoolProject.Service;
 using System.Globalization;
 using System.Text;
@@ -36,7 +37,7 @@ builder.Services.AddInfrustructureDependencies()
 #region registerservice
 
 #region identityservices
-builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+builder.Services.AddIdentity<User, Role>(options =>
 {
     // Password settings.
     options.Password.RequireDigit = true;
@@ -162,6 +163,18 @@ builder.Services.AddCors(options =>
 
 // start middleware
 var app = builder.Build();
+
+#region seed identityroles
+using (var serviceScope = app.Services.CreateScope())
+{
+    var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+    await RoleSeeder.SeedAsync(roleManager);
+    await UserSeeder.SeedAsync(userManager);
+}
+#endregion
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

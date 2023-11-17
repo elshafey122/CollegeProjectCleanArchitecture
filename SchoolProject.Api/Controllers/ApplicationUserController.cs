@@ -13,11 +13,11 @@ namespace SchoolProject.Api.Controllers
     public class ApplicationUserController : AppControllerBase
 
     {
-        private readonly IValidator<AddUserCommand> _adduservalidator;
+        private readonly IValidator<RegisterUserCommand> _adduservalidator;
         private readonly IValidator<EditUserCommand> _edituservalidator;
         private readonly IValidator<ChangeUserPasswordCommand> _changeuserpasswordvalidator;
 
-        public ApplicationUserController(IValidator<AddUserCommand> adduservalidator, IValidator<EditUserCommand> edituservalidator,
+        public ApplicationUserController(IValidator<RegisterUserCommand> adduservalidator, IValidator<EditUserCommand> edituservalidator,
              IValidator<ChangeUserPasswordCommand> changeuserpasswordvalidator)
         {
             _adduservalidator = adduservalidator;
@@ -26,7 +26,7 @@ namespace SchoolProject.Api.Controllers
         }
 
         [HttpPost(Routes.ApplicationUserRouting.Register)]
-        public async Task<IActionResult> CreateUser([FromBody] AddUserCommand command)
+        public async Task<IActionResult> CreateUser([FromBody] RegisterUserCommand command)
         {
             var validation = await _adduservalidator.ValidateAsync(command);
             if (!validation.IsValid)

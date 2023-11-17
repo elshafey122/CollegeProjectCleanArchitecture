@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using SchoolProject.Core.Basics_Status;
+using SchoolProject.Data.Helpers;
 
 namespace SchoolProject.Core.Features.ApplicationUser.Commands.Models
 {
-    public class AddUserCommand : IRequest<Response<string>>
+    public class RegisterUserCommand : IRequest<Response<JwtAuthResult>>
     {
         public string FullName { get; set; }
         public string UserName { get; set; }
