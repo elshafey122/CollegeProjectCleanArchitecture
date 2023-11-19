@@ -1,6 +1,6 @@
 ﻿namespace SchoolProject.Data.Dto
 {
-    public class EditRoleDto
+    public class EditRoleRequest
     {
         public int Id { get; set; }
         public string RoleName { get; set; }

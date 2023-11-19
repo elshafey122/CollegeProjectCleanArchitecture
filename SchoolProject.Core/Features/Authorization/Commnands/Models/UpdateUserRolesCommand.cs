@@ -4,8 +4,7 @@ using SchoolProject.Data.Dto;
 
 namespace SchoolProject.Core.Features.Authorization.Commnands.Models
 {
-    public class EditRoleCommand : EditRoleRequest, IRequest<Response<string>>
+    public class UpdateUserRolesCommand : UpdateUserRolesRequest, IRequest<Response<string>>
     {
-
     }
 }

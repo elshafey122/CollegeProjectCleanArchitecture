@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
-using SchoolProject.Data.Helpers;
+using SchoolProject.Data.Enums;
 using SchoolProject.Infrustructure.IRepositories;
 using SchoolProject.Service.Abstractions;
 
@@ -9,10 +9,12 @@ namespace SchoolProject.Service.Implemintations
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentrepository;
+        private readonly IDepartementRepository _departementRepository;
 
-        public StudentService(IStudentRepository studentrepository)
+        public StudentService(IStudentRepository studentrepository, IDepartementRepository departementRepository)
         {
             _studentrepository = studentrepository;
+            _departementRepository = departementRepository;
         }
 
         public async Task<string> AddStudent(Student student)
@@ -107,9 +109,10 @@ namespace SchoolProject.Service.Implemintations
             return _studentrepository.GetTableNoTracking().Include(e => e.Departement).AsQueryable();
         }
 
-        public Task<bool> IsDepartementIdExist(int id)
+        public async Task<bool> IsDepartementIdExist(int id)
         {
-            return _studentrepository.GetTableNoTracking().AnyAsync(x => x.DID == id);
+            var result = await _departementRepository.GetTableNoTracking().AnyAsync(x => x.DID == id);
+            return result;
         }
     }
 }

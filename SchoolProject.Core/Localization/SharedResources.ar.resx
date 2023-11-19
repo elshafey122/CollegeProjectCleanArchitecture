@@ -141,6 +141,15 @@
   <data name="Empty" xml:space="preserve">
     <value>هذا الحقل لا يجب ان يكون فارغ</value>
   </data>
+  <data name="FailedToAddNewRoles" xml:space="preserve">
+    <value>فشلت عملية اضافة الصلاحيات الجديدة للمستخدم</value>
+  </data>
+  <data name="FailedToDeleteOldRoles" xml:space="preserve">
+    <value>فشلت عملية حذف الصلاحيات القديمة للمستخدم</value>
+  </data>
+  <data name="FailedToUpdateUserRoles" xml:space="preserve">
+    <value>فشلت عملية اضافة الصلاحيات للمستخدم</value>
+  </data>
   <data name="FailToAddUser" xml:space="preserve">
     <value>فشل فى اضافة المستخدم</value>
   </data>
@@ -197,5 +206,8 @@
   </data>
   <data name="UserNameIsExist" xml:space="preserve">
     <value>اسم المستخدم موجود بالفعل</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>اسم المستخدم غير موجود</value>
   </data>
 </root>

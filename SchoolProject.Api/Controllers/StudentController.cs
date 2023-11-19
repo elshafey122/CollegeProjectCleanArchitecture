@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Features.Students.Commands.Models;
 using SchoolProject.Core.Features.Students.Queries.Models;
@@ -8,6 +9,7 @@ using System.Net;
 namespace SchoolProject.Api.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class StudentController : AppControllerBase
     {
 
@@ -39,6 +41,7 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
+        [Authorize(Policy = "CreateStudent")]
         [HttpPost(Routes.StudentRouting.Create)]
         public async Task<IActionResult> CreateStudent([FromBody] AddStudentCommand command)
         {
@@ -57,6 +60,7 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
+        [Authorize(Policy = "EditStudent")]
         [HttpPut(Routes.StudentRouting.Edit)]
         public async Task<IActionResult> EditStudent([FromBody] EditStudentCommand command)
         {
@@ -75,12 +79,12 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
+        [Authorize(Policy = "DeleteStudent")]
         [HttpDelete(Routes.StudentRouting.Delete)]
         public async Task<IActionResult> DeleteStudent([FromRoute] int id)
         {
             var response = await _mediator.Send(new DeleteStudentCommand(id));
             return NewResult(response);
         }
-
     }
 }
