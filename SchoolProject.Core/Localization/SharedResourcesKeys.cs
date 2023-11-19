@@ -31,11 +31,16 @@
         public const string AddFailed = "AddFailed";
         public const string RoleIsUsed = "RoleIsUsed";
         public const string RoleIsNotExist = "RoleIsNotExist";
+        public const string UserNotFound = "UserNotFound";
 
 
+        public const string FailedToDeleteOldRoles = "FailedToDeleTeOldRoles";
+        public const string FailedToAddNewRoles = "FailedToAddNewRoles";
+        public const string FailedToUpdateUserRoles = "FailedToUpdateUserRoles";
 
-
-
+        public const string FailedToDeleteoldClaims = "FailedToDeleteoldClaims";
+        public const string FailedToAddNewClaims = "FailedToAddNewClaims";
+        public const string FailedToUpdateUserClaims = "FailedToUpdateUserClaims";
 
 
     }

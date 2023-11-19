@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using SchoolProject.Core.Basics_Status;
-using SchoolProject.Data.Dto;
+using SchoolProject.Data.Requests;
 
 namespace SchoolProject.Core.Features.Authorization.Commnands.Models
 {
-    public class EditRoleCommand : EditRoleRequest, IRequest<Response<string>>
+    public class UpdateUserClaimsCommand : UpdateUserClaimsRequest, IRequest<Response<string>>
     {
 
     }

@@ -141,6 +141,15 @@
   <data name="Empty" xml:space="preserve">
     <value>this must not be empty</value>
   </data>
+  <data name="FailedToAddNewRoles" xml:space="preserve">
+    <value>failed to add new roles for user</value>
+  </data>
+  <data name="FailedToDeleteOldRoles" xml:space="preserve">
+    <value>failed to delete old roles for user </value>
+  </data>
+  <data name="FailedToUpdateUserRoles" xml:space="preserve">
+    <value>failed to update new roles for user</value>
+  </data>
   <data name="FailToAddUser" xml:space="preserve">
     <value>failed to add user</value>
   </data>
@@ -197,5 +206,8 @@
   </data>
   <data name="UserNameIsExist" xml:space="preserve">
     <value>username is already exists</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>user is not exist</value>
   </data>
 </root>

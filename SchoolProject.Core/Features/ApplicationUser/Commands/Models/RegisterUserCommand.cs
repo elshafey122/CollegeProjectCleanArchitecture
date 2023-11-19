@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using SchoolProject.Core.Basics_Status;
-using SchoolProject.Data.Helpers;
+using SchoolProject.Data.Results;
 
 namespace SchoolProject.Core.Features.ApplicationUser.Commands.Models
 {

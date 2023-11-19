@@ -120,9 +120,32 @@ builder.Services.AddSwaggerGen(c =>
 });
 #endregion
 
+#region AddUserClaims
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("CreateStudent", policy =>
+    {
+        policy.RequireClaim("Create Student", "True");
+    });
+    option.AddPolicy("EditStudent", policy =>
+    {
+        policy.RequireClaim("Update Student", "True");
+    });
+    option.AddPolicy("DeleteStudent", policy =>
+    {
+        policy.RequireRole("Admin").RequireClaim("Delete Student", "True");     // make require claim with role in same
+    });
+});
+
 #endregion
 
 #endregion
+
+#endregion
+
+
+
+
 
 #region Addlocalization
 builder.Services.AddLocalization(opt =>

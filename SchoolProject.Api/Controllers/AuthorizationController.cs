@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Features.Authorization.Commnands.Models;
 using SchoolProject.Core.Features.Authorization.Queires.Model;
 using SchoolProject.Data.ApiRoutingData;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 
 namespace SchoolProject.Api.Controllers
@@ -99,5 +100,43 @@ namespace SchoolProject.Api.Controllers
             var response = await _mediator.Send(new GetRoleByIdQuery() { Id = id });
             return NewResult(response);
         }
+
+        [SwaggerOperation(Summary = "ادارة صلاحية المستخدمين", OperationId = "ManageUserRoles")]
+
+        [HttpGet(Routes.Authorization.ManageUserRoles)]
+        public async Task<IActionResult> ManageUserRoles([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new ManageUserRolesQuery { UserId = id });
+            return Ok(response);
+        }
+
+        [SwaggerOperation(Summary = "تعديل صلاحية المستخدمين", OperationId = "UpdateUserRoles")]
+
+        [HttpPut(Routes.Authorization.UpdateUserRoles)]
+        public async Task<IActionResult> UpdateUserRoles([FromBody] UpdateUserRolesCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
+
+        //claims 
+        [SwaggerOperation(Summary = "ادارة صلاحية الاستخدام للمستخدمين", OperationId = "ManageUserClaims")]
+        [HttpGet(Routes.Authorization.ManageUserClaims)]
+        public async Task<IActionResult> ManageUserClaims([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new ManageUserClaimsQuery { UserId = id });
+            return Ok(response);
+        }
+
+        [SwaggerOperation(Summary = "تعديل صلاحية الاستخدام للمستخدمين", OperationId = "UpdateUserClaims")]
+
+        [HttpPut(Routes.Authorization.UpdateUserClaims)]
+        public async Task<IActionResult> UpdateUserClaims([FromBody] UpdateUserClaimsCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+
     }
 }

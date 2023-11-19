@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Helpers;
+using SchoolProject.Data.Results;
 using SchoolProject.Infrustructure.IRepositories;
 using SchoolProject.Service.Abstractions;
 using System.Collections.Concurrent;
@@ -55,8 +56,7 @@ namespace SchoolProject.Service.Implemintations
 
         private async Task<(JwtSecurityToken, string)> Generatetoken(User user)
         {
-            var userRoles = await _usermanager.GetRolesAsync(user);
-            var claims = GenerateClaims(user, userRoles.ToList());
+            var claims = await GenerateClaims(user);
             var JwtToken = new JwtSecurityToken
             (
                 issuer: _jwtsettings.Issuer,
@@ -69,8 +69,9 @@ namespace SchoolProject.Service.Implemintations
             var AccessToken = new JwtSecurityTokenHandler().WriteToken(JwtToken);  //make jwttoken a string
             return (JwtToken, AccessToken);
         }
-        private List<Claim> GenerateClaims(User user, List<string> roles)
+        private async Task<List<Claim>> GenerateClaims(User user)
         {
+            var userRoles = await _usermanager.GetRolesAsync(user);
             var claims = new List<Claim>()
             {
                 new Claim(nameof(UserClaimModel.UserId),user.Id.ToString()),
@@ -81,10 +82,17 @@ namespace SchoolProject.Service.Implemintations
                 //new Claim(nameof(UserClaimModel.UserName),user.UserName),
                 //new Claim(nameof(UserClaimModel.Email),user.Email),
             };
-            foreach (var role in roles)
+
+            // add roles in token
+            foreach (var role in userRoles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
+
+            // add claimsUser in token
+            var userClaims = await _usermanager.GetClaimsAsync(user);
+            claims.AddRange(userClaims);
+
             return claims;
         }
 
