@@ -42,6 +42,18 @@
         public const string FailedToAddNewClaims = "FailedToAddNewClaims";
         public const string FailedToUpdateUserClaims = "FailedToUpdateUserClaims";
 
+        public const string Email = "Email";
+        public const string Message = "Message";
+        public const string EmailSendFailed = "EmailSendFailed";
+        public const string EmailNotConfirmed = "EmailNotConfirmed";
+        public const string TryToregisterAgain = "TryToregisterAgain";
+        public const string FailedToConfirmEmail = "FailedToConfirmEmail";
+        public const string ConfirmEmailSuccessfully = "ConfirmEmailSuccessfully";
+        public const string TryInAnotherTime = "TryInAnotherTime";
+        public const string InvalidCode = "InvalidCode";
+
+
+
 
     }
 }

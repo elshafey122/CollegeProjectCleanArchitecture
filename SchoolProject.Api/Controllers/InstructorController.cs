@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Features.Instructors.Commands.Models;
 using SchoolProject.Core.Features.Instructors.Queries.Models;
@@ -8,6 +9,7 @@ using System.Net;
 namespace SchoolProject.Api.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class InstructorController : AppControllerBase
     {
         private readonly IValidator<AddInstructorCommand> _addinstructorvalidator;

@@ -3,7 +3,7 @@
     public static class Routes
     {
         public const string root = "Api";
-        public const string version = "v1";
+        public const string version = "V1";
         public const string Rule = root + "/" + version + "/";
 
         public static class StudentRouting
@@ -56,6 +56,12 @@
             public const string SignIn = Prefix + "/SignIn";
             public const string GenerateRefreshToken = Prefix + "/GenerateRefreshToken";
             public const string ValidateToken = Prefix + "/ValidateToken";
+            public const string ConfirmEmail = "/Api/Authentication/ConfirmEmail";
+            public const string SendResetPassword = Prefix + "/SendResetPassword";
+            public const string ConfirmResetpassword = Prefix + "/ConfirmResetpassword";
+            public const string ResetPassword = Prefix + "/ResetPassword";
+
+
         }
         public static class Authorization
         {
@@ -75,6 +81,13 @@
 
             public const string ManageUserClaims = claim + "/ManageUserClaims/{id}";
             public const string UpdateUserClaims = claim + "/UpdateUserClaims";
+
+        }
+
+        public static class Email
+        {
+            public const string Prefix = Rule + "Email";
+            public const string SendEmail = Prefix + "/SendEmail";
 
         }
     }

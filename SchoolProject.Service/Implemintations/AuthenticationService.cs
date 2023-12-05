@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EntityFrameworkCore.EncryptColumn.Interfaces;
+using EntityFrameworkCore.EncryptColumn.Util;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Helpers;
 using SchoolProject.Data.Results;
+using SchoolProject.Infrustructure.Data;
 using SchoolProject.Infrustructure.IRepositories;
 using SchoolProject.Service.Abstractions;
 using System.Collections.Concurrent;
 using System.IdentityModel.Tokens.Jwt;
-
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -21,12 +23,19 @@ namespace SchoolProject.Service.Implemintations
         private readonly ConcurrentDictionary<string, RefreshToken> _userrefreshtoken;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly UserManager<User> _usermanager;
-        public AuthenticationService(JwtSetting jwtsettings, IRefreshTokenRepository refreshTokenRepository, UserManager<User> usermanager)
+        private readonly IEmailService _emailService;
+        private readonly ApplicationDbContext _context;
+        private readonly IEncryptionProvider _encryptionProvider;
+        public AuthenticationService(JwtSetting jwtsettings, IRefreshTokenRepository refreshTokenRepository,
+            UserManager<User> usermanager, IEmailService emailService, ApplicationDbContext context)
         {
             _jwtsettings = jwtsettings;
             _userrefreshtoken = new ConcurrentDictionary<string, RefreshToken>();
             _refreshTokenRepository = refreshTokenRepository;
             _usermanager = usermanager;
+            _emailService = emailService;
+            _context = context;
+            _encryptionProvider = new GenerateEncryptionProvider("ac9e2a23fd114722939c67cd9d415192");
         }
 
         // generate jwttoken expires after time and make refreshtoken to has the ability to regenrate anothertoken
@@ -209,6 +218,89 @@ namespace SchoolProject.Service.Implemintations
             {
                 return ex.Message;
             }
+        }
+
+        public async Task<string> ConfirmEmail(int? userId, string? token)
+        {
+            var user = await _usermanager.FindByIdAsync(userId.ToString());
+            if (userId == null || token == null)
+            {
+                return "FailedToConfirmEmail";
+            }
+            var result = await _usermanager.ConfirmEmailAsync(user, token);
+            if (!result.Succeeded)
+                return "FailedToConfirmEmail";
+            return "confirm email successfully";
+        }
+
+        public async Task<string> SendResetpasswordCode(string email)
+        {
+            var trans = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // check found user
+                var user = await _usermanager.FindByEmailAsync(email);
+                if (user == null)
+                    return "UserNotFound";
+
+                // generate random number
+                Random Generator = new Random();
+                string randomNumber = Generator.Next(0, 1000000).ToString("D6");
+
+                // update user code 
+                user.Code = randomNumber;
+                var result = await _usermanager.UpdateAsync(user);
+                if (!result.Succeeded)
+                    return "ErrrorInUpdateAsync";
+                var massage = "code to reset password: " + user.Code;
+
+                // send code to email for user
+                var sendCode = _emailService.SendEmail(email, massage, "Reset Password");
+                await trans.CommitAsync();
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                await trans.RollbackAsync();
+                return "Failed";
+            }
+        }
+
+        public async Task<string> ConfirmResetpassword(string code, string email)
+        {
+            // check found user
+            var user = await _usermanager.FindByEmailAsync(email);
+            if (user == null)
+                return "UserNotFound";
+
+            // make decrypt code from user in database 
+            //var usercode = _encryptionProvider.Decrypt(user.Code);    // we do not do this code for decryption because the code in user is a actual code   
+            var userCode = user.Code;
+            if (userCode == user.Code) return "Success";
+            return "Failed";
+        }
+
+        public async Task<string> Resetpassword(string email, string password)
+        {
+            var trans = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // check found user
+                var user = await _usermanager.FindByEmailAsync(email);
+                if (user == null)
+                    return "UserNotFound";
+
+                await _usermanager.RemovePasswordAsync(user);
+                await _usermanager.AddPasswordAsync(user, password);
+                await trans.CommitAsync();
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                await trans.RollbackAsync();
+                return "Failure";
+            }
+
         }
     }
 }

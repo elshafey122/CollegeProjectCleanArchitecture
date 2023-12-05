@@ -126,6 +126,9 @@
   <data name="BadRequest" xml:space="preserve">
     <value>طلب خاطئ</value>
   </data>
+  <data name="ConfirmEmailSuccessfully" xml:space="preserve">
+    <value>تم تاكيد الايميل بنجاح</value>
+  </data>
   <data name="Created" xml:space="preserve">
     <value>تم الاضافة بنجاح</value>
   </data>
@@ -135,14 +138,26 @@
   <data name="DeletedFailed" xml:space="preserve">
     <value>فشل فى حذف العنصر</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>ايميل</value>
+  </data>
   <data name="EmailIsExist" xml:space="preserve">
     <value>الايميل موجود بالفعل</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>التحقق من الايميل ليس مؤكد</value>
+  </data>
+  <data name="EmailSendFailed" xml:space="preserve">
+    <value>فشل فى ارسال الايميل</value>
   </data>
   <data name="Empty" xml:space="preserve">
     <value>هذا الحقل لا يجب ان يكون فارغ</value>
   </data>
   <data name="FailedToAddNewRoles" xml:space="preserve">
     <value>فشلت عملية اضافة الصلاحيات الجديدة للمستخدم</value>
+  </data>
+  <data name="FailedToConfirmEmail" xml:space="preserve">
+    <value>فشل فى تاكيد الايميل</value>
   </data>
   <data name="FailedToDeleteOldRoles" xml:space="preserve">
     <value>فشلت عملية حذف الصلاحيات القديمة للمستخدم</value>
@@ -153,11 +168,17 @@
   <data name="FailToAddUser" xml:space="preserve">
     <value>فشل فى اضافة المستخدم</value>
   </data>
+  <data name="InvalidCode" xml:space="preserve">
+    <value>الكود الذى ادخلتة غير صحيح</value>
+  </data>
   <data name="IsExist" xml:space="preserve">
     <value> موجود بالفعل</value>
   </data>
   <data name="MaxLength100" xml:space="preserve">
     <value>اكبر قيمة لة 100</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>رسالة</value>
   </data>
   <data name="NameIsExist" xml:space="preserve">
     <value>اسم المستخدم موجود بالفعل</value>
@@ -191,6 +212,12 @@
   </data>
   <data name="TokenIsNotExpired" xml:space="preserve">
     <value>رمز الوصول الذى تستخدمة غير منتهى</value>
+  </data>
+  <data name="TryInAnotherTime" xml:space="preserve">
+    <value>حدث خطا اثناء اجراء العملية من فضلك حاول مجددا فى وقت لاحق</value>
+  </data>
+  <data name="TryToregisterAgain" xml:space="preserve">
+    <value>حاول التسجيل مجددا</value>
   </data>
   <data name="UnAuthorized" xml:space="preserve">
     <value>غير مسموح بالدخول لهذا المصدر</value>

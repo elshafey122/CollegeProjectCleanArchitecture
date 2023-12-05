@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using SchoolProject.Core.Filters;
 using System.Reflection;
 namespace SchoolProject.Core
 {
@@ -15,6 +16,10 @@ namespace SchoolProject.Core
 
             // adding validation 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // add filter to handle cases in authorization
+            services.AddTransient<AuthFilter>();
+
             return services;
         }
     }
