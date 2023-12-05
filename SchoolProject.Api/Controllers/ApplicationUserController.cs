@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Features.ApplicationUser.Commands.Models;
 using SchoolProject.Core.Features.ApplicationUser.Queires.Model;
@@ -42,7 +43,7 @@ namespace SchoolProject.Api.Controllers
             var response = await _mediator.Send(command);
             return NewResult(response);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet(Routes.ApplicationUserRouting.GetUsers)]
         public async Task<IActionResult> GetAllUsers([FromQuery] GetUsersPaginatedQuery query)
         {
@@ -50,6 +51,7 @@ namespace SchoolProject.Api.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet(Routes.ApplicationUserRouting.GetbyId)]
         public async Task<IActionResult> GetuserById([FromRoute] int id)
         {
@@ -57,6 +59,7 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut(Routes.ApplicationUserRouting.Edit)]
         public async Task<IActionResult> UpdateUser([FromBody] EditUserCommand command)
         {
@@ -75,6 +78,7 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete(Routes.ApplicationUserRouting.Delete)]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {

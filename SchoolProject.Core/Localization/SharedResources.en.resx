@@ -126,6 +126,9 @@
   <data name="BadRequest" xml:space="preserve">
     <value>it is bad request</value>
   </data>
+  <data name="ConfirmEmailSuccessfully" xml:space="preserve">
+    <value>confirm email successfully</value>
+  </data>
   <data name="Created" xml:space="preserve">
     <value>created successfully</value>
   </data>
@@ -135,14 +138,26 @@
   <data name="DeletedFailed" xml:space="preserve">
     <value>failed to delete element</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>email</value>
+  </data>
   <data name="EmailIsExist" xml:space="preserve">
     <value>Email is already exists</value>
+  </data>
+  <data name="EmailNotConfirmed" xml:space="preserve">
+    <value>email is not confirmed</value>
+  </data>
+  <data name="EmailSendFailed" xml:space="preserve">
+    <value>fail to send email </value>
   </data>
   <data name="Empty" xml:space="preserve">
     <value>this must not be empty</value>
   </data>
   <data name="FailedToAddNewRoles" xml:space="preserve">
     <value>failed to add new roles for user</value>
+  </data>
+  <data name="FailedToConfirmEmail" xml:space="preserve">
+    <value>fail to confirm email</value>
   </data>
   <data name="FailedToDeleteOldRoles" xml:space="preserve">
     <value>failed to delete old roles for user </value>
@@ -153,11 +168,17 @@
   <data name="FailToAddUser" xml:space="preserve">
     <value>failed to add user</value>
   </data>
+  <data name="InvalidCode" xml:space="preserve">
+    <value>invalid code</value>
+  </data>
   <data name="IsExist" xml:space="preserve">
     <value>is already exists</value>
   </data>
   <data name="MaxLength100" xml:space="preserve">
     <value>the max length is 100</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>message</value>
   </data>
   <data name="NameIsExist" xml:space="preserve">
     <value>Name is already exists</value>
@@ -194,6 +215,12 @@
   </data>
   <data name="TokenIsNotExpired" xml:space="preserve">
     <value>Token Is Not Expired</value>
+  </data>
+  <data name="TryInAnotherTime" xml:space="preserve">
+    <value>try in another time</value>
+  </data>
+  <data name="TryToregisterAgain" xml:space="preserve">
+    <value>try to register again</value>
   </data>
   <data name="UnAuthorized" xml:space="preserve">
     <value>you are not authorized to access this resource</value>

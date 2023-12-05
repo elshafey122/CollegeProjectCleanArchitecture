@@ -13,6 +13,9 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Handler
 {
     public class SignInHandler : ResponseHandler, IRequestHandler<SignInCommand, Response<JwtAuthResult>>
                                                 , IRequestHandler<RefreshTokenCommand, Response<JwtAuthResult>>
+                                                , IRequestHandler<SendResetPasswordCommand, Response<string>>
+                                                , IRequestHandler<ResetPasswordCommand, Response<string>>
+
     {
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         private readonly UserManager<User> _userManager;
@@ -36,15 +39,23 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Handler
             if (user == null)
             {
                 //return Unauthorized<string>();
-                return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.UserNameIsExist]);
+                return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.UserNotFound]);
             }
             // check for password of username
             var SignInManager = await _signinmanager.CheckPasswordSignInAsync(user, request.Password, false);
+
             if (!SignInManager.Succeeded)
             {
                 //return Unauthorized<string>();
                 return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.NotCorrectPassword]);
             }
+
+            // confirm email check
+            if (!user.EmailConfirmed)
+            {
+                return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.EmailNotConfirmed]);
+            }
+
             var token = await _authenticationService.GetjwtToken(user);
             return Success(token);
         }
@@ -75,6 +86,40 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Handler
 
             var result = await _authenticationService.GenerateRefreshToken(user, jwtToken, request.RefreshToken, expiryDate);  // finally i regenerate access token and refreshtoken is remain as it was
             return Success(result);
+        }
+
+        public async Task<Response<string>> Handle(SendResetPasswordCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _authenticationService.SendResetpasswordCode(request.Email);
+            switch (result)
+            {
+                case ("UserNotFound"):
+                    return NotFound<string>(_stringLocalizer[SharedResourcesKeys.UserNotFound]);
+                case ("ErrrorInUpdateAsync"):
+                    return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.TryInAnotherTime]);
+                case ("Success"):
+                    return Success<string>("");
+                case ("Failed"):
+                    return Success<string>(_stringLocalizer[SharedResourcesKeys.TryInAnotherTime]);
+                default:
+                    return BadRequest<string>(result);
+            }
+        }
+
+        public async Task<Response<string>> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _authenticationService.Resetpassword(request.Email, request.Password);
+            switch (result)
+            {
+                case ("UserNotFound"):
+                    return NotFound<string>(_stringLocalizer[SharedResourcesKeys.UserNotFound]);
+                case ("Failed"):
+                    return Success<string>(_stringLocalizer[SharedResourcesKeys.InvalidCode]);
+                case ("Success"):
+                    return Success<string>("");
+                default:
+                    return BadRequest<string>(result);
+            }
         }
     }
 }

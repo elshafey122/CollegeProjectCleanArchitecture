@@ -10,7 +10,7 @@ namespace SchoolProject.Api.Controllers
 {
     [ApiController]
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DepartementController : AppControllerBase
     {
         private readonly IValidator<AddDepartementCommand> _adddepvalidator;

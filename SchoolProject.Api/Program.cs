@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -54,7 +57,7 @@ builder.Services.AddIdentity<User, Role>(options =>
     options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = true;
-    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedEmail = true;    // make true to check user confirm password
 
 }).AddEntityFrameworkStores<ApplicationDbContext>()
   .AddDefaultTokenProviders();
@@ -139,13 +142,15 @@ builder.Services.AddAuthorization(option =>
 
 #endregion
 
+#region BindEmailService
+var EmailSetting = new EmailSetting();
+builder.Configuration.GetSection("emailSetting").Bind(EmailSetting); // making bind to transfer data from jwtsetting in appsetting.json into class jwtsetting
+builder.Services.AddSingleton(EmailSetting);
 #endregion
 
 #endregion
 
-
-
-
+#endregion
 
 #region Addlocalization
 builder.Services.AddLocalization(opt =>
@@ -182,6 +187,15 @@ builder.Services.AddCors(options =>
 });
 #endregion
 
+#region add IUrlHelper and IActionContextAccessor that deals with url of route and request details
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+builder.Services.AddScoped<IUrlHelper>(x =>
+{
+    var actionContext = x.GetRequiredService<IActionContextAccessor>().ActionContext;
+    var factory = x.GetRequiredService<IUrlHelperFactory>();
+    return factory.GetUrlHelper(actionContext);
+});
+#endregion
 
 
 // start middleware

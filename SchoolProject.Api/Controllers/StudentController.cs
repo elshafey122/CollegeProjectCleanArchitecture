@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Features.Students.Commands.Models;
 using SchoolProject.Core.Features.Students.Queries.Models;
+using SchoolProject.Core.Filters;
 using SchoolProject.Data.ApiRoutingData;
 using System.Net;
 
@@ -20,7 +21,11 @@ namespace SchoolProject.Api.Controllers
             _addvalidator = Addvalidator;
             _editvalidator = Editvalidator;
         }
+
+
         [HttpGet(Routes.StudentRouting.List)]
+        [Authorize(Roles = "User")]
+        [ServiceFilter(typeof(AuthFilter))]
         public async Task<IActionResult> GetStudentsList()
         {
             var response = await _mediator.Send(new GetStudentsListQuery());

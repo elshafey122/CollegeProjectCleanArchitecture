@@ -13,54 +13,50 @@ using SchoolProject.Service.Abstractions;
 
 namespace SchoolProject.Core.Features.ApplicationUser.Commands.Handler
 {
-    public class UserHandlerCommand : ResponseHandler, IRequestHandler<RegisterUserCommand, Response<JwtAuthResult>>,
+    public class UserCommandHandler : ResponseHandler, IRequestHandler<RegisterUserCommand, Response<JwtAuthResult>>,
                                                        IRequestHandler<EditUserCommand, Response<string>>,
                                                        IRequestHandler<DeleteUserCommand, Response<string>>,
                                                        IRequestHandler<ChangeUserPasswordCommand, Response<string>>
-
-
     {
         private readonly IMapper _mapper;
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         private readonly UserManager<User> _userManager;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IApplicationUserService _applicationUserService;
 
-        public UserHandlerCommand(IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer,
-            UserManager<User> userManager, IAuthenticationService authenticationService) : base(stringLocalizer)
+        public UserCommandHandler(IMapper mapper, IStringLocalizer<SharedResources> stringLocalizer,
+            UserManager<User> userManager, IAuthenticationService authenticationService
+            , IApplicationUserService applicationUserService) : base(stringLocalizer)
         {
             _mapper = mapper;
             _stringLocalizer = stringLocalizer;
             _userManager = userManager;
             _authenticationService = authenticationService;
+            _applicationUserService = applicationUserService;
         }
 
         public async Task<Response<JwtAuthResult>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            //check exist email
-            var user = await _userManager.FindByEmailAsync(request.Email);
-            if (user != null)
-                return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.EmailIsExist]);
-
-            //check exist username
-            var Userbyusername = await _userManager.FindByNameAsync(request.UserName);
-            if (Userbyusername != null)
-                return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.NameIsExist]);
-
-            // mapping to current user
-            var IdentityUser = _mapper.Map<User>(request);
-
-            // create new user
-            var createdresult = await _userManager.CreateAsync(IdentityUser, request.Password);//
-            if (!createdresult.Succeeded)
+            var User = _mapper.Map<User>(request);
+            var result = await _applicationUserService.AddUserAsync(User, request.Password);
+            switch (result)
             {
-                return BadRequest<JwtAuthResult>(createdresult.Errors.FirstOrDefault().Description);
+                case "EmailIsExist":
+                    return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.EmailIsExist]);
+                    break;
+                case "UserNameIsExist":
+                    return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.NameIsExist]);
+                    break;
+                case "FailedToAddUser":
+                    return BadRequest<JwtAuthResult>(_stringLocalizer[SharedResourcesKeys.TryToregisterAgain]);
+                    break;
+                case "Success":
+                    var token = await _authenticationService.GetjwtToken(User);
+                    return Success<JwtAuthResult>(token);
+                default:
+                    return BadRequest<JwtAuthResult>(result);
+                    break;
             }
-
-            await _userManager.AddToRoleAsync(IdentityUser, "User");
-
-            // add token after register successfully
-            var token = await _authenticationService.GetjwtToken(IdentityUser);
-            return Success<JwtAuthResult>(token);
 
         }
 
@@ -90,7 +86,7 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Handler
             if (user == null)
                 return NotFound<string>(_stringLocalizer[SharedResourcesKeys.NotFound]);
 
-            var result = await _userManager.DeleteAsync(user);//
+            var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
             {
                 return BadRequest<string>(_stringLocalizer[SharedResourcesKeys.DeletedFailed]);
