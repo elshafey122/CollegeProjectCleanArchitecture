@@ -8,17 +8,21 @@ using SchoolProject.Core.Features.Departements.Queries.ViewModels;
 using SchoolProject.Core.Localization;
 using SchoolProject.Core.Wrappings;
 using SchoolProject.Data.Entities;
+using SchoolProject.Data.Entities.Procedures;
 using SchoolProject.Service.Abstractions;
 using System.Linq.Expressions;
 
 namespace SchoolProject.Core.Features.Departements.Queries.Handlers
 {
+
     public class DepartementHandlerQuery : ResponseHandler, IRequestHandler<GetDepardementByIdQuery, Response<DepartementByIdResponse>>,
-                                                            IRequestHandler<GetDepartementListQuery, Response<PaginatedResult<DepartementListResponse>>>
+                                                            IRequestHandler<GetDepartementListQuery, Response<PaginatedResult<DepartementListResponse>>>,
+                                                            IRequestHandler<GetDepartementStudentListCountQurery, Response<List<GetDepartementStudentListCountResponse>>>,
+                                                            IRequestHandler<GetDepartementStudentCountByIdQuery, Response<GetDepartementStudentCountByIdResponse>>
+
     {
         private readonly IDeparetementService _departementservice;
         private readonly IStudentService _studentservice;
-
         private readonly IMapper _mapper;
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
         public DepartementHandlerQuery(IDeparetementService departementservice, IMapper mapper,
@@ -51,6 +55,21 @@ namespace SchoolProject.Core.Features.Departements.Queries.Handlers
             Expression<Func<Departement, DepartementListResponse>> expression = e => new DepartementListResponse { Id = e.DID, DepartementName = e.Localize(e.DNameAr, e.DNameEn), InstructorManager = e.Instructor.Localize(e.Instructor.NameAr, e.Instructor.NameEn) };
             var paginatedlist = await response.Select(expression).ToPaginateListAsync(request.PageNumber, request.PageSize);
             return Success(paginatedlist);
+        }
+
+        public async Task<Response<List<GetDepartementStudentListCountResponse>>> Handle(GetDepartementStudentListCountQurery request, CancellationToken cancellationToken)
+        {
+            var result = await _departementservice.viewDepartStudentCounts();
+            var mapper = _mapper.Map<List<GetDepartementStudentListCountResponse>>(result);
+            return Success(mapper);
+        }
+
+        public async Task<Response<GetDepartementStudentCountByIdResponse>> Handle(GetDepartementStudentCountByIdQuery request, CancellationToken cancellationToken)
+        {
+            var param = _mapper.Map<DepartstudentContProcedeurParams>(request);
+            var procResult = await _departementservice.GetdepartstudentContProcedeurs(param);
+            var result = _mapper.Map<GetDepartementStudentCountByIdResponse>(procResult.FirstOrDefault());
+            return Success(result);
         }
     }
 }

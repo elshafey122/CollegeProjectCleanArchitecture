@@ -77,5 +77,19 @@ namespace SchoolProject.Api.Controllers
             var response = await _mediator.Send(new DeleteDepartementCommand { DId = id });
             return NewResult(response);
         }
+
+        [HttpGet(Routes.DepartementRouting.GetDepartementStudentCount)]
+        public async Task<IActionResult> GetDepartementStudentCount()
+        {
+            var response = await _mediator.Send(new GetDepartementStudentListCountQurery());
+            return NewResult(response);
+        }
+
+        [HttpGet(Routes.DepartementRouting.GetDepartstudentContById)]
+        public async Task<IActionResult> GetDepartstudentContById([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new GetDepartementStudentCountByIdQuery { DId = id });
+            return NewResult(response);
+        }
     }
 }

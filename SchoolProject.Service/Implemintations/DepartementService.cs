@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
+using SchoolProject.Data.Entities.Procedures;
+using SchoolProject.Data.Entities.Views;
 using SchoolProject.Infrustructure.IRepositories;
+using SchoolProject.Infrustructure.IRepositories.IProcedures;
+using SchoolProject.Infrustructure.IRepositories.IViews;
 using SchoolProject.Service.Abstractions;
 
 namespace SchoolProject.Service.Implemintations
@@ -8,10 +12,16 @@ namespace SchoolProject.Service.Implemintations
     public class DepartementService : IDeparetementService
     {
         private readonly IDepartementRepository _deparetementrepository;
+        private readonly IViewRepository<ViewDepartStudentCount> _viewDeptRepository;
+        private readonly IDepartstudentContProcedeurRepository _departstudentContProcedeurRepository;
 
-        public DepartementService(IDepartementRepository deparetementrepository)
+        public DepartementService(IDepartementRepository deparetementrepository,
+            IViewRepository<ViewDepartStudentCount> viewDeptRepository,
+            IDepartstudentContProcedeurRepository departstudentContProcedeurRepository)
         {
             _deparetementrepository = deparetementrepository;
+            _viewDeptRepository = viewDeptRepository;
+            _departstudentContProcedeurRepository = departstudentContProcedeurRepository;
         }
 
         public async Task<string> AddDepartement(Departement departement)
@@ -66,6 +76,11 @@ namespace SchoolProject.Service.Implemintations
             return departements;
         }
 
+        public async Task<IReadOnlyList<DepartstudentContProcedeur>> GetdepartstudentContProcedeurs(DepartstudentContProcedeurParams param)
+        {
+            return await _departstudentContProcedeurRepository.GetdepartstudentContProcedeurs(param);
+        }
+
         public async Task<bool> IsDepartementExist(int? id)
         {
             var res = await _deparetementrepository.GetTableNoTracking().FirstOrDefaultAsync(x => x.DID == id);
@@ -74,6 +89,11 @@ namespace SchoolProject.Service.Implemintations
                 return false;
             }
             return true;
+        }
+
+        public async Task<List<ViewDepartStudentCount>> viewDepartStudentCounts()
+        {
+            return await _viewDeptRepository.GetTableNoTracking().ToListAsync();
         }
     }
 }

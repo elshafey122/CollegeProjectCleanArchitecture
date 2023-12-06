@@ -12,7 +12,9 @@ using SchoolProject.Service.Abstractions;
 namespace SchoolProject.Core.Features.Instructors.Queries.Handlers
 {
     public class InstructorHansdlerQuery : ResponseHandler, IRequestHandler<GetInstructorListQuery, Response<PaginatedResult<GetInstructorResponse>>>,
-                                                            IRequestHandler<GetInstructorByIdQuery, Response<GetInstructorResponse>>
+                                                            IRequestHandler<GetInstructorByIdQuery, Response<GetInstructorResponse>>,
+                                                            IRequestHandler<GetSummationSalaryOfInstructorsQuery, Response<Decimal>>,
+                                                            IRequestHandler<GetInstructorsSalaryDataQuery, Response<List<GetInstructorsSalaryDataResponse>>>
     {
         private readonly IInstructorService _instructorService;
         private readonly IMapper _mapper;
@@ -52,6 +54,19 @@ namespace SchoolProject.Core.Features.Instructors.Queries.Handlers
             }
             var instructormapper = _mapper.Map<GetInstructorResponse>(result);
             return Success(instructormapper);
+        }
+
+        public async Task<Response<decimal>> Handle(GetSummationSalaryOfInstructorsQuery request, CancellationToken cancellationToken)
+        {
+            var result = await _instructorService.GetSummationSalaryOfInstructors();
+            return Success(result);
+        }
+
+        public async Task<Response<List<GetInstructorsSalaryDataResponse>>> Handle(GetInstructorsSalaryDataQuery request, CancellationToken cancellationToken)
+        {
+            var result = await _instructorService.GetInstructorsSalaryData();
+            var mapperData = _mapper.Map<List<GetInstructorsSalaryDataResponse>>(result);
+            return Success(mapperData);
         }
     }
 }
