@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
+using SchoolProject.Data.Entities.Functions;
+using SchoolProject.Infrustructure.Data;
 using SchoolProject.Infrustructure.IRepositories;
+using SchoolProject.Infrustructure.IRepositories.IFunctions;
 using SchoolProject.Service.Abstractions;
 
 namespace SchoolProject.Service.Implemintations
@@ -8,9 +11,14 @@ namespace SchoolProject.Service.Implemintations
     public class InstructorService : IInstructorService
     {
         private readonly IInstructorRepository _instructorRepository;
-        public InstructorService(IInstructorRepository instructorRepository)
+        private readonly IInstructorFunctionRepository _instructorFunctionRepository;
+        private readonly ApplicationDbContext _context;
+        public InstructorService(IInstructorRepository instructorRepository, IInstructorFunctionRepository instructorFunctionRepository,
+            ApplicationDbContext context)
         {
             _instructorRepository = instructorRepository;
+            _context = context;
+            _instructorFunctionRepository = instructorFunctionRepository;
         }
 
         public async Task<string> AddInstructor(Instructor instructor)
@@ -63,6 +71,32 @@ namespace SchoolProject.Service.Implemintations
         {
             var instructorslist = _instructorRepository.GetTableNoTracking().Include(x => x.Departement).AsQueryable();
             return instructorslist;
+        }
+
+        public async Task<List<InstructorSalaryData>> GetInstructorsSalaryData()
+        {
+            using (var cmd = _context.Database.GetDbConnection().CreateCommand()) // code for connect to database
+            {
+                if (cmd.Connection.State != System.Data.ConnectionState.Open) // check connection of database
+                {
+                    cmd.Connection.Open();
+                }
+                return await _instructorFunctionRepository.GetInstructorsSalaryData("select * from dbo.InstructorSalaryData()", cmd);
+            }
+        }
+
+        public Task<decimal> GetSummationSalaryOfInstructors()
+        {
+            decimal result = 0;
+            using (var cmd = _context.Database.GetDbConnection().CreateCommand()) // code for connect to database
+            {
+                if (cmd.Connection.State != System.Data.ConnectionState.Open) // check connection of database
+                {
+                    cmd.Connection.Open();
+                }
+                result = _instructorFunctionRepository.GetSummationSalaryOfInstructors("select dbo.GetSalarySummation()", cmd);
+            }
+            return Task.FromResult(result);
         }
 
         public async Task<bool> IsInstructorIsExist(int? id)

@@ -9,6 +9,7 @@ namespace SchoolProject.Core.Mapping.Instructors
             GetInstructorListMapping();
             AddInstructorMapping();
             EditInstructorMapping();
+            GetInstructorsSalaryDataMapping();
         }
     }
 }

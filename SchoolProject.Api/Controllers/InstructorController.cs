@@ -76,5 +76,19 @@ namespace SchoolProject.Api.Controllers
             var response = await _mediator.Send(new DeleteInstructorCommand { Id = id });
             return NewResult(response);
         }
+
+        [HttpGet(Routes.InstructorRouting.GetSummationSalaryOfInstructors)]
+        public async Task<IActionResult> GetSummationSalaryOfInstructors()
+        {
+            var response = await _mediator.Send(new GetSummationSalaryOfInstructorsQuery());
+            return NewResult(response);
+        }
+
+        [HttpGet(Routes.InstructorRouting.GetInstructorsSalaryData)]
+        public async Task<IActionResult> GetInstructorsSalaryData()
+        {
+            var response = await _mediator.Send(new GetInstructorsSalaryDataQuery());
+            return NewResult(response);
+        }
     }
 }
