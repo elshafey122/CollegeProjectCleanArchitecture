@@ -35,7 +35,7 @@ namespace SchoolProject.Api.Controllers
         }
 
         [HttpPost(Routes.InstructorRouting.Create)]
-        public async Task<IActionResult> AddInstructor([FromBody] AddInstructorCommand query)
+        public async Task<IActionResult> AddInstructor([FromForm] AddInstructorCommand query)
         {
             var validation = await _addinstructorvalidator.ValidateAsync(query);
             if (!validation.IsValid)
@@ -48,12 +48,13 @@ namespace SchoolProject.Api.Controllers
                 };
                 return BadRequest(errorresponse);
             }
+
             var response = await _mediator.Send(query);
             return NewResult(response);
         }
 
         [HttpPut(Routes.InstructorRouting.Edit)]
-        public async Task<IActionResult> EditInstructor([FromBody] EditInstructorCommand query)
+        public async Task<IActionResult> EditInstructor([FromForm] EditInstructorCommand query)
         {
             var validation = await _editinstructorvalidator.ValidateAsync(query);
             if (!validation.IsValid)
