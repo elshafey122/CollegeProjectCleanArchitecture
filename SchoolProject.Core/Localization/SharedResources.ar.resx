@@ -165,8 +165,14 @@
   <data name="FailedToUpdateUserRoles" xml:space="preserve">
     <value>فشلت عملية اضافة الصلاحيات للمستخدم</value>
   </data>
+  <data name="FailedToUploadImage" xml:space="preserve">
+    <value>خطأ اثناء رفع الصورة</value>
+  </data>
   <data name="FailToAddUser" xml:space="preserve">
     <value>فشل فى اضافة المستخدم</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>الاسم موجود بالفعل</value>
   </data>
   <data name="InvalidCode" xml:space="preserve">
     <value>الكود الذى ادخلتة غير صحيح</value>
@@ -182,6 +188,9 @@
   </data>
   <data name="NameIsExist" xml:space="preserve">
     <value>اسم المستخدم موجود بالفعل</value>
+  </data>
+  <data name="NoImage" xml:space="preserve">
+    <value>من فضلك قم باختيار الصورة</value>
   </data>
   <data name="NotConfirmPassword" xml:space="preserve">
     <value>تاكيد الباسورد والباسورد لا يتفقان</value>

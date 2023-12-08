@@ -8,6 +8,7 @@ namespace SchoolProject.Core.Mapping.Instructors
         public void AddInstructorMapping()
         {
             CreateMap<AddInstructorCommand, Instructor>()
+                .ForMember(des => des.Image, opt => opt.Ignore())
                 .ForMember(des => des.NameAr, opt => opt.MapFrom(x => x.InstructotNameAr))
                 .ForMember(des => des.NameEn, opt => opt.MapFrom(x => x.InstructorNameEn))
                 .ForMember(des => des.DId, opt => opt.MapFrom(x => x.DepartementId));

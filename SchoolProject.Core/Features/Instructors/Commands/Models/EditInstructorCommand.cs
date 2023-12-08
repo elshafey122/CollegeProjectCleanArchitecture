@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using SchoolProject.Core.Basics_Status;
 
 namespace SchoolProject.Core.Features.Instructors.Commands.Models
@@ -13,5 +14,7 @@ namespace SchoolProject.Core.Features.Instructors.Commands.Models
         public decimal? Salary { get; set; }
         public int? SupervisorId { get; set; }
         public int? DepartementId { get; set; }//
+        public IFormFile? Image { get; set; }
+
     }
 }

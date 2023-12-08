@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
 using SchoolProject.Data.Entities.Functions;
 using SchoolProject.Infrustructure.Data;
@@ -12,24 +13,43 @@ namespace SchoolProject.Service.Implemintations
     {
         private readonly IInstructorRepository _instructorRepository;
         private readonly IInstructorFunctionRepository _instructorFunctionRepository;
+        private readonly IFileService _fileService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ApplicationDbContext _context;
         public InstructorService(IInstructorRepository instructorRepository, IInstructorFunctionRepository instructorFunctionRepository,
-            ApplicationDbContext context)
+            ApplicationDbContext context, IFileService fileService, IHttpContextAccessor httpContextAccessor)
         {
             _instructorRepository = instructorRepository;
             _context = context;
             _instructorFunctionRepository = instructorFunctionRepository;
+            _fileService = fileService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<string> AddInstructor(Instructor instructor)
+        public async Task<string> AddInstructor(Instructor instructor, IFormFile file, string location)
         {
-            var result = await _instructorRepository.GetTableNoTracking().Where(x => x.NameAr.Equals(instructor.NameAr) || x.NameEn.Equals(instructor.NameEn)).FirstOrDefaultAsync();
-            if (result != null)
+            var context = _httpContextAccessor.HttpContext.Request;
+            var BaseUrl = context.Scheme + "://" + context.Host;
+            var imageUrl = await _fileService.UploadImage(location, file);
+
+            switch (imageUrl)
             {
-                return "Exist";
+                case "NoImage":
+                    return "NoImage";
+                case "FailedToUploadImage":
+                    return "FailedToUploadImage";
             }
-            await _instructorRepository.AddAsync(instructor);
-            return "Success";
+            var finalImageUrl = BaseUrl + imageUrl;
+            instructor.Image = finalImageUrl;
+            try
+            {
+                await _instructorRepository.AddAsync(instructor);
+                return "Success";
+            }
+            catch (Exception)
+            {
+                return "FailedInAdd";
+            }
         }
 
         public async Task<string> DeleteInstructor(int id)
@@ -53,10 +73,29 @@ namespace SchoolProject.Service.Implemintations
             }
         }
 
-        public async Task<string> EditInstructor(Instructor instructor)
+        public async Task<string> EditInstructor(Instructor instructor, IFormFile file, string location)
         {
-            await _instructorRepository.UpdateAsync(instructor);
-            return "Success";
+            var context = _httpContextAccessor.HttpContext.Request;
+            var BaseUrl = context.Scheme + "://" + context.Host;
+            var imageUrl = await _fileService.UploadImage(location, file);
+            switch (imageUrl)
+            {
+                case "NoImage":
+                    return "NoImage";
+                case "FailedToUploadImage":
+                    return "FailedToUploadImage";
+            }
+            var finalImageUrl = BaseUrl + imageUrl;
+            instructor.Image = finalImageUrl;
+            try
+            {
+                await _instructorRepository.UpdateAsync(instructor);
+                return "Success";
+            }
+            catch (Exception)
+            {
+                return "FailedInAdd";
+            }
         }
 
         public async Task<Instructor> GetInstructorbyId(int id)
@@ -103,6 +142,26 @@ namespace SchoolProject.Service.Implemintations
         {
             var res = await _instructorRepository.GetTableNoTracking().FirstOrDefaultAsync(x => x.InsId == id);
             if (res == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<bool> IsInstructorNameEnIsExist(string nameEn)
+        {
+            var res = await _instructorRepository.GetTableNoTracking().FirstOrDefaultAsync(x => x.NameEn == nameEn);
+            if (res != null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<bool> IsInstructorNameArIsExist(string nameAr)
+        {
+            var res = await _instructorRepository.GetTableNoTracking().FirstOrDefaultAsync(x => x.NameAr == nameAr);
+            if (res != null)
             {
                 return false;
             }

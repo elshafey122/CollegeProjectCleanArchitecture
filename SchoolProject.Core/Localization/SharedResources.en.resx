@@ -165,8 +165,14 @@
   <data name="FailedToUpdateUserRoles" xml:space="preserve">
     <value>failed to update new roles for user</value>
   </data>
+  <data name="FailedToUploadImage" xml:space="preserve">
+    <value>fail to upload image</value>
+  </data>
   <data name="FailToAddUser" xml:space="preserve">
     <value>failed to add user</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>name is already exists</value>
   </data>
   <data name="InvalidCode" xml:space="preserve">
     <value>invalid code</value>
@@ -182,6 +188,9 @@
   </data>
   <data name="NameIsExist" xml:space="preserve">
     <value>Name is already exists</value>
+  </data>
+  <data name="NoImage" xml:space="preserve">
+    <value>please choose image </value>
   </data>
   <data name="NotConfirmPassword" xml:space="preserve">
     <value>password and confirmpassword not match</value>

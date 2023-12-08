@@ -17,24 +17,19 @@ namespace SchoolProject.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int InsId { get; set; }
 
-
         public string? NameAr { get; set; }
-
 
         public string? NameEn { get; set; }
 
-
         public string? Position { get; set; }
-
 
         public string? Address { get; set; }
 
-
         public decimal? Salary { get; set; }
 
+        public string? Image { get; set; }
 
         public int? SupervisorId { get; set; }
-
 
         public int? DId { get; set; }
 
@@ -43,19 +38,15 @@ namespace SchoolProject.Data.Entities
         [InverseProperty("Instructors")]
         public Departement? Departement { get; set; }
 
-
         [InverseProperty("Instructor")]
         public Departement DepartementManager { get; set; }
-
 
         [ForeignKey(nameof(SupervisorId))]
         [InverseProperty("Instructors")]
         public Instructor? supervisor { get; set; }
 
-
         [InverseProperty("supervisor")]
         public ICollection<Instructor> Instructors { get; set; }
-
 
         [InverseProperty("Instructor")]
         public ICollection<InstructorSubject> InstructorSubjects { get; set; }

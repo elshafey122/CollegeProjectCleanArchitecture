@@ -22,6 +22,8 @@
         public const string DeletedFailed = "DeletedFailed";
         public const string UserNameIsExist = "UserNameIsExist";
         public const string NotCorrectPassword = "NotCorrectPassword";
+        public const string Found = "Found";
+
 
         public const string AlgorithmIsWrong = "AlgorithmIsWrong";
         public const string TokenIsNotExpired = "TokenIsNotExpired";
@@ -51,6 +53,9 @@
         public const string ConfirmEmailSuccessfully = "ConfirmEmailSuccessfully";
         public const string TryInAnotherTime = "TryInAnotherTime";
         public const string InvalidCode = "InvalidCode";
+        public const string NoImage = "NoImage";
+        public const string FailedToUploadImage = "FailedToUploadImage";
+
 
 
 

@@ -231,6 +231,8 @@ app.UseRequestLocalization(options.Value);
 
 app.UseCors(Cors);
 
+app.UseStaticFiles();   // for using files in api
+
 app.UseAuthentication();
 
 app.UseAuthorization();
