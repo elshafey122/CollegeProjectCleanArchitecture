@@ -10,7 +10,7 @@ using System.Net;
 namespace SchoolProject.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,User")]
     public class StudentController : AppControllerBase
     {
 
@@ -32,6 +32,7 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet(Routes.StudentRouting.Paginated)]
         public async Task<IActionResult> GetPaginatedStudentsList([FromQuery] GetStudentPaginatedListQuery query)
         {

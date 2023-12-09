@@ -11,6 +11,7 @@ namespace SchoolProject.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,User")]
     public class ApplicationUserController : AppControllerBase
 
     {
@@ -25,7 +26,7 @@ namespace SchoolProject.Api.Controllers
             _edituservalidator = edituservalidator;
             _changeuserpasswordvalidator = changeuserpasswordvalidator;
         }
-
+        [AllowAnonymous] // that tell that you not has authorize and any one can access this point 
         [HttpPost(Routes.ApplicationUserRouting.Register)]
         public async Task<IActionResult> CreateUser([FromBody] RegisterUserCommand command)
         {
@@ -51,7 +52,6 @@ namespace SchoolProject.Api.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet(Routes.ApplicationUserRouting.GetbyId)]
         public async Task<IActionResult> GetuserById([FromRoute] int id)
         {
@@ -59,7 +59,6 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPut(Routes.ApplicationUserRouting.Edit)]
         public async Task<IActionResult> UpdateUser([FromBody] EditUserCommand command)
         {
@@ -78,7 +77,6 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpDelete(Routes.ApplicationUserRouting.Delete)]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {

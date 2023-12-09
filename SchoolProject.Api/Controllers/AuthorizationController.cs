@@ -101,7 +101,7 @@ namespace SchoolProject.Api.Controllers
             return NewResult(response);
         }
 
-        [SwaggerOperation(Summary = "ادارة صلاحية المستخدمين", OperationId = "ManageUserRoles")]
+        [SwaggerOperation(Summary = "ادارة صلاحية المستخدمين", OperationId = "ManageUserRoles")]  // operationId must be unique to refers to this endpoint only
 
         [HttpGet(Routes.Authorization.ManageUserRoles)]
         public async Task<IActionResult> ManageUserRoles([FromRoute] int id)

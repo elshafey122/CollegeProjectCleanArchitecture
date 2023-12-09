@@ -126,15 +126,7 @@ namespace SchoolProject.Service.Implemintations
 
         public Task<decimal> GetSummationSalaryOfInstructors()
         {
-            decimal result = 0;
-            using (var cmd = _context.Database.GetDbConnection().CreateCommand()) // code for connect to database
-            {
-                if (cmd.Connection.State != System.Data.ConnectionState.Open) // check connection of database
-                {
-                    cmd.Connection.Open();
-                }
-                result = _instructorFunctionRepository.GetSummationSalaryOfInstructors("select dbo.GetSalarySummation()", cmd);
-            }
+            var result = _instructorFunctionRepository.GetSummationSalaryOfInstructors("select dbo.GetSalarySummation()");
             return Task.FromResult(result);
         }
 

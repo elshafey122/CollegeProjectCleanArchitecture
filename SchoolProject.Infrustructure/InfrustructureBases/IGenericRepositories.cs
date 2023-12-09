@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SchoolProject.Infrustructure.InfrustructureBases
 {
@@ -14,6 +9,9 @@ namespace SchoolProject.Infrustructure.InfrustructureBases
         IDbContextTransaction BeginTransaction();
         void commit();
         void RollBack();
+        Task<IDbContextTransaction> BeginTransactionAsync();
+        Task commitAsync();
+        Task RollBackAsync();
         IQueryable<T> GetTableNoTracking();
         IQueryable<T> GetTableAsTracking();
         Task<T> AddAsync(T entity);

@@ -15,6 +15,7 @@ using SchoolProject.Infrustructure;
 using SchoolProject.Infrustructure.Data;
 using SchoolProject.Infrustructure.Seeders;
 using SchoolProject.Service;
+using Serilog;
 using System.Globalization;
 using System.Text;
 
@@ -31,6 +32,12 @@ builder.Services.AddControllersWithViews();
 var ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(ConnectionString));
 #endregion
+
+#region Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+builder.Services.AddLogging();
+#endregion 
 
 #region depency injection
 builder.Services.AddInfrustructureDependencies()

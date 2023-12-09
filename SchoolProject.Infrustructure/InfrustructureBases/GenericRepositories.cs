@@ -30,9 +30,19 @@ namespace SchoolProject.Infrustructure.InfrustructureBases
             return _context.Database.BeginTransaction();
         }
 
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _context.Database.BeginTransactionAsync();
+        }
+
         public void commit()
         {
             _context.Database.CommitTransaction();
+        }
+
+        public async Task commitAsync()
+        {
+            await _context.Database.CommitTransactionAsync();
         }
 
         public virtual async Task DeleteAsync(T entity)
@@ -69,6 +79,11 @@ namespace SchoolProject.Infrustructure.InfrustructureBases
         public void RollBack()
         {
             _context.Database.RollbackTransaction();
+        }
+
+        public async Task RollBackAsync()
+        {
+            await _context.Database.RollbackTransactionAsync();
         }
 
         public virtual async Task UpdateAsync(T entity)

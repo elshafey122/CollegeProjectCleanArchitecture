@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Features.Authentication.Commands.Models;
 using SchoolProject.Core.Features.Authentication.Queires.Modles;
 using SchoolProject.Data.ApiRoutingData;
@@ -7,8 +8,8 @@ namespace SchoolProject.Api.Controllers
 {
     public class AuthenticationController : AppControllerBase
     {
-
         [HttpPost(Routes.Authentication.SignIn)]
+        [AllowAnonymous]
         public async Task<IActionResult> SignIn([FromForm] SignInCommand command)
         {
             var response = await _mediator.Send(command);
