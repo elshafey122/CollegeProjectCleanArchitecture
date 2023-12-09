@@ -5,7 +5,7 @@ namespace SchoolProject.Infrustructure.IRepositories.IFunctions
 {
     public interface IInstructorFunctionRepository
     {
-        public decimal GetSummationSalaryOfInstructors(string query, DbCommand cmd);
+        public decimal GetSummationSalaryOfInstructors(string query);
         public Task<List<InstructorSalaryData>> GetInstructorsSalaryData(string query, DbCommand cmd);
     }
 }

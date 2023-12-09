@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Core.Features.Email.Commands.Models;
 using SchoolProject.Data.ApiRoutingData;
 
@@ -6,6 +7,7 @@ namespace SchoolProject.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,User")]
     public class EmailController : AppControllerBase
     {
         public EmailController()
