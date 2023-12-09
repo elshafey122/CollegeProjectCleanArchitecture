@@ -1,3 +1,1 @@
-# SchoolProject
-## api project using .net core api and cqers design pattern with clean architecture
-description:
+##College Project Using Asp.net Core Web Api Using Clean Architecture Based On Code First
