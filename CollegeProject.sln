@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Api", "SchoolProject.Api\SchoolProject.Api.csproj", "{AD86485B-0064-42E2-AF0B-DD418AAAEDD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeProject.Api", "SchoolProject.Api\CollegeProject.Api.csproj", "{AD86485B-0064-42E2-AF0B-DD418AAAEDD7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Core", "SchoolProject.Core\SchoolProject.Core.csproj", "{3B43F8DA-8610-49AC-8236-AB928EEA088A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeProject.Core", "SchoolProject.Core\CollegeProject.Core.csproj", "{3B43F8DA-8610-49AC-8236-AB928EEA088A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Data", "SchoolProject.Data\SchoolProject.Data.csproj", "{6167930F-0DAF-4B94-888B-0EA847232C62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeProject.Data", "SchoolProject.Data\CollegeProject.Data.csproj", "{6167930F-0DAF-4B94-888B-0EA847232C62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Infrustructure", "SchoolProject.Infrustructure\SchoolProject.Infrustructure.csproj", "{9AE75B20-D7B5-4A96-ADF5-A736A0BBB408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeProject.Infrustructure", "SchoolProject.Infrustructure\CollegeProject.Infrustructure.csproj", "{9AE75B20-D7B5-4A96-ADF5-A736A0BBB408}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Service", "SchoolProject.Service\SchoolProject.Service.csproj", "{F0D604DA-84FC-488D-BAF6-88F98FFE68CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegeProject.Service", "SchoolProject.Service\CollegeProject.Service.csproj", "{F0D604DA-84FC-488D-BAF6-88F98FFE68CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

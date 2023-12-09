@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SchoolProject.Core\SchoolProject.Core.csproj" />
+    <ProjectReference Include="..\SchoolProject.Core\CollegeProject.Core.csproj" />
   </ItemGroup>
 
 </Project>
