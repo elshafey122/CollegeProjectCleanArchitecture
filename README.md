@@ -1,4 +1,5 @@
-## This ASP.NET Core Web API school project is structured around Clean Architecture principles, emphasizing modularity, separation of concerns, and maintainability. Here's an overview of its key components:
+## API school project is structured around Clean Architecture principles, emphasizing modularity, separation of concerns, and maintainability. 
+## Here's an overview of its key components:
 - CQRS Design Pattern: The Command Query Responsibility Segregation pattern separates read and write operations, enhancing scalability and flexibility.
 - Generic Repository Design Pattern: Implements a generic repository pattern for data access, promoting code reuse and abstraction over specific data storage implementations.
 - Pagination Schema: Incorporates a standardized pagination schema for handling large datasets efficiently.
