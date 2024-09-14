@@ -19,6 +19,26 @@ namespace SchoolProject.Infrustructure.Data
         {
             // assign code for encryption
             _encryptionProvider = new GenerateEncryptionProvider("ac9e2a23fd114722939c67cd9d415192");
+
+            // check if migrations not applied and database not created yet
+            try{
+                var databaseCreator = Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
+                if(databaseCreator!=null)
+                {
+                    if(!databaseCreator.CanConnect())
+                    {
+                        databaseCreator.Create();            // create database
+                    }
+                    if(!databaseCreator.HasTables())
+                    {
+                        databaseCreator.CreateTables();      // create tables
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
         public DbSet<Departement> departements { get; set; }
         public DbSet<Student> students { get; set; }
