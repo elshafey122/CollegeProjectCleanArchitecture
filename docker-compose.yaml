@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  cleanarcdb:
+    container_name: cleanarcdb
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    build: 
+      context: .
+      dockerfile: dockerfile
+    environment:
+      - ACCEPT_EULA: "Y"
+      - MSSQL_SA_PASSWORD=Ahmedd  
+    ports:
+      -8001: 1433
+  
+  cleanarc:
+    container_name: cleanarc
+    image: ahmed/cleanarc
+    ports:
+      -8080:80
+    depends_on:
+      - cleanarcdb
+    
+
+    
+    
